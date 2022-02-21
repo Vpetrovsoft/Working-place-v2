@@ -29,6 +29,12 @@ namespace WebAddressbookTests
         public string BMonth { get; set; }
         public string BYear { get; set; }
 
+        // Селекторы Anniversary
+        public string ADay { get; set; }
+        public string AMonth { get; set; }
+        public string AYear { get; set; }
+        // Селектор выбора группы
+        public string SGroup { get; set; }
         // Secondary
         public string SAddress { get; set; }
         public string SHome { get; set; }
@@ -54,6 +60,12 @@ namespace WebAddressbookTests
             string bDay,
             string bMonth,
             string bYear,
+            // Селекторы Anniversary
+            string aDay,
+            string aMonth,
+            string aYear,
+            // Селектор выбора группы
+            string sGroup,
             // Secondary
             string sAddress,
             string sHome,
@@ -79,6 +91,12 @@ namespace WebAddressbookTests
             BDay = bDay;
             BMonth = bMonth;
             BYear = bYear;
+            // Селекторы Anniversary
+            ADay = aDay;
+            AMonth = aMonth;
+            AYear = aYear;
+            // Селектор выбора группы
+            SGroup = sGroup;
             // Secondary
             SAddress = sAddress;
             SHome = sHome;

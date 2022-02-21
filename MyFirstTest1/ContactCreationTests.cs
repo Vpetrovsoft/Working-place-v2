@@ -60,6 +60,10 @@ namespace WebAddressbookTests
                 "3",
                 "April",
                 "1991",
+                "15",
+                "November",
+                "2008",
+                "Lol",
                 "Venigret street",
                 "55",
                 "Ну и тут некое описание");
@@ -133,23 +137,23 @@ namespace WebAddressbookTests
             //Заполнение селектора даты рождения
             driver.FindElement(By.CssSelector("form[name='theform']")).Click();
             driver.FindElement(By.CssSelector("select[name='bday']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='bday']"))).SelectByText("3");
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='bday']"))).SelectByText(contact.BDay);
             driver.FindElement(By.CssSelector("select[name='bmonth']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='bmonth']"))).SelectByText("April");
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='bmonth']"))).SelectByText(contact.BMonth);
             driver.FindElement(By.CssSelector("input[name='byear']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='byear']")).SendKeys("1993");
+            driver.FindElement(By.CssSelector("input[name='byear']")).SendKeys(contact.BYear);
 
             // Селектор Anniversary
             driver.FindElement(By.CssSelector("select[name='aday']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='aday']"))).SelectByText("1");
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='aday']"))).SelectByText(contact.ADay);
             driver.FindElement(By.CssSelector("select[name='amonth']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='amonth']"))).SelectByText("March");
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='amonth']"))).SelectByText(contact.AMonth);
             driver.FindElement(By.CssSelector("input[name='ayear']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='ayear']")).SendKeys("2008");
+            driver.FindElement(By.CssSelector("input[name='ayear']")).SendKeys(contact.AYear);
 
             // Селектор выбора группы
             driver.FindElement(By.CssSelector("select[name='new_group']")).Click();
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='new_group']"))).SelectByText("Lol");
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='new_group']"))).SelectByText(contact.SGroup);
 
             driver.FindElement(By.CssSelector("textarea[name='address2']")).Clear();
             driver.FindElement(By.CssSelector("textarea[name='address2']")).SendKeys(contact.SAddress);
