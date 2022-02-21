@@ -35,7 +35,7 @@ namespace WebAddressbookTests
         }
 
         [Test]
-        //начало теста
+
 	public void GroupCreationTest()
         {
             OpenHomePage();
@@ -50,7 +50,7 @@ namespace WebAddressbookTests
 
         private void Logout()
         {
-            driver.FindElement(By.XPath("//a[contains(text(),'Logout')]")).Click();
+            driver.FindElement(By.CssSelector("form[name='logout'] a")).Click();
         }
 
         private void ReturnToGroupPage()
@@ -60,22 +60,22 @@ namespace WebAddressbookTests
 
         private void SubmitGroupCreation()
         {
-            driver.FindElement(By.CssSelector("input[name=\'submit\']")).Click();
+            driver.FindElement(By.CssSelector("input[name='submit']")).Click();
         }
 
         private void FillGroupForm(GroupData group)
         {
             driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
             driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).SendKeys(group.Header);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).SendKeys(group.Footer);
+            driver.FindElement(By.CssSelector("textarea[name='group_header']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name='group_header']")).SendKeys(group.Header);
+            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
         }
 
         private void InitNewGropCreation()
         {
-            driver.FindElement(By.CssSelector("input[name=\'new\']")).Click();
+            driver.FindElement(By.CssSelector("input[name='new']")).Click();
         }
 
         private void GoToGroupsPage()
@@ -85,11 +85,11 @@ namespace WebAddressbookTests
 
         private void Login(AccountData account)
         {
-            driver.FindElement(By.CssSelector("input[name=\'user\']")).Clear();
-            driver.FindElement(By.CssSelector("input[name=\'user\']")).SendKeys(account.Username);
-            driver.FindElement(By.CssSelector("input[name=\'pass\']")).Clear();
-            driver.FindElement(By.CssSelector("input[name=\'pass\']")).SendKeys(account.Password);
-            driver.FindElement(By.CssSelector("input[type=\'submit\']")).Click();
+            driver.FindElement(By.CssSelector("input[name='user']")).Clear();
+            driver.FindElement(By.CssSelector("input[name='user']")).SendKeys(account.Username);
+            driver.FindElement(By.CssSelector("input[name='pass']")).Clear();
+            driver.FindElement(By.CssSelector("input[name='pass']")).SendKeys(account.Password);
+            driver.FindElement(By.CssSelector("input[type='submit']")).Click();
         }
 
         private void OpenHomePage()
