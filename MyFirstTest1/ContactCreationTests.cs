@@ -41,34 +41,37 @@ namespace WebAddressbookTests
             OpenHomePage();
             Login(new AccountData("admin", "secret"));
             GoToAddContact();
-            ContactForm contact = new ContactForm(
-                "Vitya",
-                "Petrovich",
-                "Bumaga",
-                "Greshnik",
-                "Transription some",
-                "ООО 'ПсковскийХлобокомбинат'",
-                "ulica Bezumiya",
-                "69",
-                "8-951-998-95-96",
-                "01-01-00",
-                "01-01-00",
-                "Uragantest666+1@gmail.com",
-                "Uragantest666+2@gmail.com",
-                "Uragantest666+3@gmail.com",
-                "www.leningrad.ru",
-                "3",
-                "April",
-                "1991",
-                "15",
-                "November",
-                "2008",
-                "Lol",
-                "Venigret street",
-                "55",
-                "Ну и тут некое описание");
+
+            ContactForm contact = new ContactForm()
+            {
+                LastName = "Bumaga",
+                FirstName = "Bitya",
+                MiddleName = "Petrovich",
+                NickName ="Greshnik215",
+                Title = "Титул",
+                Company = "ООО'ПсковСтройСемью'",
+                Address = "Мозжевеловый переулок",
+                THome = "2",
+                TMobile = "8-958-652-88-77",
+                TWork = "01-01-00",
+                TFax = "01-01-00",
+                Email = "Uragantest666+1@gmail.com",
+                Email2 = "Uragantest666+2@gmail.com",
+                Email3 = "Uragantest666+3@gmail.com",
+                Homepage = "www.leningrad.ru",
+                BDay = "10",
+                BMonth = "May",
+                BYear = "1993",
+                ADay = "12",
+                AMonth = "April",
+                AYear = "2021",
+                SGroup = "Lol",
+                SAddress = "Lenina",
+                SHome = "1",
+                SNotes = "Примечание",
+
+            };
             ContactCreation(contact);
-            BackToHomePage();
             Logout();
         }
 
@@ -136,23 +139,18 @@ namespace WebAddressbookTests
 
             //Заполнение селектора даты рождения
             driver.FindElement(By.CssSelector("form[name='theform']")).Click();
-            driver.FindElement(By.CssSelector("select[name='bday']")).Click();
             new SelectElement(driver.FindElement(By.CssSelector("select[name='bday']"))).SelectByText(contact.BDay);
-            driver.FindElement(By.CssSelector("select[name='bmonth']")).Click();
             new SelectElement(driver.FindElement(By.CssSelector("select[name='bmonth']"))).SelectByText(contact.BMonth);
             driver.FindElement(By.CssSelector("input[name='byear']")).Clear();
             driver.FindElement(By.CssSelector("input[name='byear']")).SendKeys(contact.BYear);
 
             // Селектор Anniversary
-            driver.FindElement(By.CssSelector("select[name='aday']")).Click();
             new SelectElement(driver.FindElement(By.CssSelector("select[name='aday']"))).SelectByText(contact.ADay);
-            driver.FindElement(By.CssSelector("select[name='amonth']")).Click();
             new SelectElement(driver.FindElement(By.CssSelector("select[name='amonth']"))).SelectByText(contact.AMonth);
             driver.FindElement(By.CssSelector("input[name='ayear']")).Clear();
             driver.FindElement(By.CssSelector("input[name='ayear']")).SendKeys(contact.AYear);
 
             // Селектор выбора группы
-            driver.FindElement(By.CssSelector("select[name='new_group']")).Click();
             new SelectElement(driver.FindElement(By.CssSelector("select[name='new_group']"))).SelectByText(contact.SGroup);
 
             driver.FindElement(By.CssSelector("textarea[name='address2']")).Clear();
@@ -163,10 +161,5 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("textarea[name='notes']")).SendKeys(contact.SNotes);
         }
 
-        private void BackToHomePage()
-        {
-            // Тут возможно привязка только к ссылке
-            driver.FindElement(By.CssSelector("a[href='./']")).Click();
-        }
     }
 }

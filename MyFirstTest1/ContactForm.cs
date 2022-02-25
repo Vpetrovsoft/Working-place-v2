@@ -40,67 +40,6 @@ namespace WebAddressbookTests
         public string SHome { get; set; }
         public string SNotes { get; set; }
 
-        public ContactForm(
-            string firstname,
-            string middleName,
-            string lastname,
-            string nickName,
-            string title,
-            string company,
-            string address,
-            string tHome,
-            string tMobile,
-            string tWork,
-            string tFax,
-            string email,
-            string email2,
-            string email3,
-            string homepage,
-            // Селекторы дня рождения
-            string bDay,
-            string bMonth,
-            string bYear,
-            // Селекторы Anniversary
-            string aDay,
-            string aMonth,
-            string aYear,
-            // Селектор выбора группы
-            string sGroup,
-            // Secondary
-            string sAddress,
-            string sHome,
-            string sNotes
-            )
-        {
-            FirstName = firstname;
-            LastName = lastname;
-            MiddleName = middleName;
-            NickName = nickName;
-            Title = title;
-            Company = company;
-            Address = address;
-            THome = tHome;
-            TMobile = tMobile;
-            TWork = tWork;
-            TFax = tFax;
-            Email = email;
-            Email2 = email2;
-            Email3 = email3;
-            Homepage = homepage;
-            // Селекторы дня рождения
-            BDay = bDay;
-            BMonth = bMonth;
-            BYear = bYear;
-            // Селекторы Anniversary
-            ADay = aDay;
-            AMonth = aMonth;
-            AYear = aYear;
-            // Селектор выбора группы
-            SGroup = sGroup;
-            // Secondary
-            SAddress = sAddress;
-            SHome = sHome;
-            SNotes = sNotes;
-        }
+        public ContactForm() {}
     }
 }
