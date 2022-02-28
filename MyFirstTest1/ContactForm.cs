@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    class ContactForm
+    public class ContactForm
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
