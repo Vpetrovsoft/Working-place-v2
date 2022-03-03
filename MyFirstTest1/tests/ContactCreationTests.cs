@@ -17,9 +17,9 @@ namespace WebAddressbookTests
         
         public void ContactCreationTest()
         {
-            GoToHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToAddContact();
+            app.Navigator.GoToHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.GoToAddContact();
 
             ContactForm contact = new ContactForm()
             {
@@ -47,10 +47,11 @@ namespace WebAddressbookTests
                 SGroup = "Lol",
                 SAddress = "Lenina",
                 SHome = "1",
-                SNotes = "Примечание",
+                SNotes = "Примечание"
             };
-            ContactCreation(contact);
-            Logout();
+            app.Contacts.ContactCreation(contact);
+            app.Navigator.BackToHomePage();
+            app.Auth.Logout();
         }
 
     }

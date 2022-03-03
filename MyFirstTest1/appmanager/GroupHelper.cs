@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
+namespace WebAddressbookTests
+{
+    public class GroupHelper : HelperBase
+    {
+
+        public GroupHelper(ApplicationManager manager) : base(manager)
+        {
+        }
+
+        public GroupHelper Create(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            InitNewGropCreation();
+            SubmitGroupCreation();
+            return this;
+        }
+
+        /// <summary>
+        /// Создать новую группу
+        /// </summary>
+        public GroupHelper InitNewGropCreation()
+        {
+            driver.FindElement(By.CssSelector("input[name=\'new\']")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Заполнение полей группы
+        /// </summary>
+        /// <param name="group"></param>
+        public GroupHelper FillGroupForm(GroupData group)
+        {
+            driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
+            driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
+            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).SendKeys(group.Header);
+            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).SendKeys(group.Footer);
+            return this;
+        }
+
+        public GroupHelper SubmitGroupCreation()
+        {
+            driver.FindElement(By.CssSelector("input[name=\'submit\']")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Выбор группы из селектора
+        /// </summary>
+        /// <param name="index"></param>
+        public GroupHelper SelectGroup(int index)
+        {
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Удаление группы
+        /// </summary>
+        public GroupHelper RemoveGroup()
+        {
+            driver.FindElement(By.CssSelector("input[name=\"delete\"]")).Click();
+            return this;
+        }
+    }
+}

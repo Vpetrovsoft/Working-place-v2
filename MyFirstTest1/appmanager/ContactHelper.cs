@@ -3,95 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests
 {
-    public class TestBase
+    public class ContactHelper : HelperBase
     {
-        protected IWebDriver driver;
-        protected string baseURL = "http://localhost/addressbook/";
-
-
-        [SetUp]
-        public void SetupTest()
+        public ContactHelper(ApplicationManager manager) : base(manager)
         {
-            driver = new ChromeDriver();
         }
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-        /// <summary>
-        /// Возвращение на главную страницу
-        /// </summary>
-        protected void GoToHomePage()
-        {
-            driver.Navigate().GoToUrl(baseURL);
-        }
-
-        protected void Login(AccountData account)
-        {
-            driver.FindElement(By.CssSelector("input[name=\'user\']")).Clear();
-            driver.FindElement(By.CssSelector("input[name=\'user\']")).SendKeys(account.Username);
-            driver.FindElement(By.CssSelector("input[name=\'pass\']")).Clear();
-            driver.FindElement(By.CssSelector("input[name=\'pass\']")).SendKeys(account.Password);
-            driver.FindElement(By.CssSelector("input[type=\'submit\']")).Click();
-        }
-        /// <summary>
-        /// Инициализация создания новой группы
-        /// </summary>
-        protected void InitNewGropCreation()
-        {
-            driver.FindElement(By.CssSelector("input[name=\'new\']")).Click();
-        }
-        /// <summary>
-        /// Заполнение полей группы
-        /// </summary>
-        /// <param name="group"></param>
-        protected void FillGroupForm(GroupData group)
-        {
-            driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).SendKeys(group.Header);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).SendKeys(group.Footer);
-        }
-
-        protected void SubmitGroupCreation()
-        {
-            driver.FindElement(By.CssSelector("input[name=\'submit\']")).Click();
-        }
-        /// <summary>
-        /// Возвращение на странциу группы
-        /// </summary>
-        protected void GoToGroupsPage()
-        {
-            driver.FindElement(By.XPath("//a[contains(text(),'groups')]")).Click();
-        }
-
-        protected void GoToAddContact()
+        public void GoToAddContact()
         {
             driver.FindElement(By.LinkText("add new")).Click();
         }
+
         /// <summary>
         /// Заполнение полей контакта
         /// </summary>
         /// <param name="contact"></param>
-        protected void ContactCreation(ContactForm contact)
+        public void ContactCreation(ContactForm contact)
         {
             driver.FindElement(By.CssSelector("input[name=\"firstname\"]")).Clear();
             driver.FindElement(By.CssSelector("input[name=\"firstname\"]")).SendKeys(contact.FirstName);
@@ -147,31 +80,5 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("textarea[name='notes']")).Clear();
             driver.FindElement(By.CssSelector("textarea[name='notes']")).SendKeys(contact.SNotes);
         }
-
-        protected void SelectGroup(int index)
-        {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
-        }
-
-        protected void RemoveGroup()
-        {
-            driver.FindElement(By.CssSelector("input[name=\"delete\"]")).Click();
-        }
-
-        protected void Logout()
-        {
-            driver.FindElement(By.XPath("//a[contains(text(),'Logout')]")).Click();
-        }
-
-        protected void ReturnToGroupPage()
-        {
-            driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
-        }
-
-        protected void BackToHomePage()
-        {
-            driver.FindElement(By.XPath("//a[contains(text(),'home')]")).Click();
-        }
-
     }
 }
