@@ -11,41 +11,36 @@ namespace WebAddressbookTests
 {
     public class ApplicationManager
     {
-        public IWebDriver driver;
         public string baseURL = "http://localhost/addressbook/";
-        public LoginHelper loginHelper;
-        public NavigationHelper navigator;
-        public GroupHelper groupHelper;
-        public ContactHelper contactHelper;
+        public IWebDriver Driver { get; }
+        public LoginHelper Auth { get; }
+        public NavigationHelper Navigator { get; }
+        public GroupHelper Groups { get; }
+        public ContactHelper Contacts { get; }
+
 
         public ApplicationManager()
         {
-            driver = new ChromeDriver();
-            loginHelper = new LoginHelper(this);
-            navigator = new NavigationHelper(this, baseURL);
-            groupHelper = new GroupHelper(this);
-            contactHelper = new ContactHelper(this);
+            Driver = new ChromeDriver();
+            Auth = new LoginHelper(this);
+            Navigator = new NavigationHelper(this, baseURL);
+            Groups = new GroupHelper(this);
+            Contacts = new ContactHelper(this);
 
         }
 
-        public IWebDriver Driver { get; }
 
         public void Stop()
         {
             try
             {
-                driver.Quit();
+                Driver.Quit();
             }
             catch (Exception)
             {
 
             }
         }
-
-        public LoginHelper Auth { get; }
-        public NavigationHelper Navigator { get; }
-        public GroupHelper Groups { get; }
-        public ContactHelper Contacts { get; }
 
     }
 }
