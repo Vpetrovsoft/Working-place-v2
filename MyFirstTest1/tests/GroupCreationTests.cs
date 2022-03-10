@@ -17,8 +17,6 @@ namespace WebAddressbookTests
 
 	    public void GroupCreationTest()
         {
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
             GroupData group = new GroupData()
             {
                 Name = "Lol",

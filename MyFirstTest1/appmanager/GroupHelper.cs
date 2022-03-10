@@ -19,17 +19,29 @@ namespace WebAddressbookTests
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
-            InitNewGropCreation();
+            InitNewGroupCreation();
+            FillGroupForm(group);
             SubmitGroupCreation();
             return this;
         }
 
+        public GroupHelper Modify(int v, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(v);
+            InitNewGroupModifycation();
+            FillGroupForm(newData);
+            SubmitGroupModifycation();
+            return this;
+        }
+
+
         /// <summary>
         /// Создать новую группу
         /// </summary>
-        public GroupHelper InitNewGropCreation()
+        public GroupHelper InitNewGroupCreation()
         {
-            driver.FindElement(By.CssSelector("input[name=\'new\']")).Click();
+            driver.FindElement(By.CssSelector("input[name='new']")).Click();
             return this;
         }
 
@@ -41,16 +53,16 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
             driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_header\']")).SendKeys(group.Header);
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name=\'group_footer\']")).SendKeys(group.Footer);
+            driver.FindElement(By.CssSelector("textarea[name='group_header']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name='group_header']")).SendKeys(group.Header);
+            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).Clear();
+            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
             return this;
         }
 
         public GroupHelper SubmitGroupCreation()
         {
-            driver.FindElement(By.CssSelector("input[name=\'submit\']")).Click();
+            driver.FindElement(By.CssSelector("input[name='submit']")).Click();
             return this;
         }
 
@@ -69,7 +81,19 @@ namespace WebAddressbookTests
         /// </summary>
         public GroupHelper RemoveGroup()
         {
-            driver.FindElement(By.CssSelector("input[name=\"delete\"]")).Click();
+            driver.FindElement(By.CssSelector("input[name='delete']")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModifycation()
+        {
+            driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            return this;
+        }
+
+        public GroupHelper InitNewGroupModifycation()
+        {
+            driver.FindElement(By.CssSelector("input[name='edit']")).Click();
             return this;
         }
     }

@@ -17,10 +17,6 @@ namespace WebAddressbookTests
         
         public void ContactCreationTest()
         {
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-            app.Contacts.GoToAddContact();
-
             ContactForm contact = new ContactForm()
             {
                 LastName = "Bumaga",
@@ -49,8 +45,7 @@ namespace WebAddressbookTests
                 SHome = "1",
                 SNotes = "Примечание"
             };
-            app.Contacts.ContactCreation(contact);
-            app.Navigator.BackToHomePage();
+            app.Contacts.Creation(contact);
             app.Auth.Logout();
         }
 

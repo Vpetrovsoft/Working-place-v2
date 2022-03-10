@@ -19,6 +19,9 @@ namespace WebAddressbookTests
             this.baseURL = baseURL;
         }
 
+        /// <summary>
+        /// Переход на страницу 'Домой'
+        /// </summary>
         public void GoToHomePage()
         {
             driver.Navigate().GoToUrl(baseURL);
@@ -36,7 +39,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void BackToHomePage()
         {
-            driver.FindElement(By.XPath("//a[contains(text(),'home')]")).Click();
+            driver.FindElement(By.CssSelector("a[href='./']")).Click();
         }
     }
 }
