@@ -19,12 +19,12 @@ namespace WebAddressbookTests
         {
             ContactForm contact = new ContactForm()
             {
-                LastName = "Bumaga",
+                LastName = "Bumagad",
                 FirstName = "Bitya",
                 MiddleName = "Petrovich",
                 NickName ="Greshnik215",
-                Title = "Титул",
-                Company = "ООО'ПсковСтройСемью'",
+                Title = "",
+                Company = "",
                 Address = "Мозжевеловый переулок",
                 THome = "2",
                 TMobile = "8-958-652-88-77",
@@ -48,6 +48,5 @@ namespace WebAddressbookTests
             app.Contacts.Creation(contact);
             app.Auth.Logout();
         }
-
     }
 }

@@ -42,7 +42,7 @@ namespace WebAddressbookTests
                 SHome = "1",
                 SNotes = "о да"
             };
-            app.Contacts.ModifyContact(1, newContact);
+            app.Contacts.ModifyContact(0, newContact);
             app.Auth.Logout();
         }
     }

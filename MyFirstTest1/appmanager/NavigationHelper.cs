@@ -35,6 +35,14 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Переход на страницу добавления контакта
+        /// </summary>
+        public void GoToAddContact()
+        {
+            driver.FindElement(By.LinkText("add new")).Click();
+        }
+
+        /// <summary>
         /// Переход на страницу 'Домой'
         /// </summary>
         public void BackToHomePage()

@@ -16,6 +16,11 @@ namespace WebAddressbookTests
         {
         }
 
+        /// <summary>
+        /// Метод создания группы
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -25,6 +30,12 @@ namespace WebAddressbookTests
             return this;
         }
 
+        /// <summary>
+        /// Метод редактирования группы
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="newData"></param>
+        /// <returns></returns>
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
@@ -60,6 +71,10 @@ namespace WebAddressbookTests
             return this;
         }
 
+        /// <summary>
+        /// Подтверждение создания группы
+        /// </summary>
+        /// <returns></returns>
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
@@ -85,12 +100,20 @@ namespace WebAddressbookTests
             return this;
         }
 
+        /// <summary>
+        /// Подтверждение редактирования группы
+        /// </summary>
+        /// <returns></returns>
         public GroupHelper SubmitGroupModifycation()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;
         }
 
+        /// <summary>
+        /// Инициализация редактирования группы
+        /// </summary>
+        /// <returns></returns>
         public GroupHelper InitNewGroupModifycation()
         {
             driver.FindElement(By.CssSelector("input[name='edit']")).Click();
