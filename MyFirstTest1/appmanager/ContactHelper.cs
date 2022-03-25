@@ -39,7 +39,7 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             GoToEditContact(v);
-            ContactFillForm(newContact);
+            ContactFillForm(newContact, needFillGroup:false);
             SubmitContactModification();
             manager.Navigator.BackToHomePage();
             return this;
@@ -60,7 +60,7 @@ namespace WebAddressbookTests
         /// Заполнение полей контакта
         /// </summary>
         /// <param name="contact"></param>
-        public ContactHelper ContactFillForm(ContactForm contact)
+        public ContactHelper ContactFillForm(ContactForm contact, bool needFillGroup = true)
         {
             driver.FindElement(By.CssSelector("input[name='firstname']")).Clear();
             driver.FindElement(By.CssSelector("input[name='firstname']")).SendKeys(contact.FirstName);
@@ -105,14 +105,9 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("input[name='ayear']")).Clear();
             driver.FindElement(By.CssSelector("input[name='ayear']")).SendKeys(contact.AYear);
 
-            try
-            {
-                // Селектор выбора группы
+            // Селектор выбора группы
+            if (needFillGroup)
                 new SelectElement(driver.FindElement(By.CssSelector("select[name='new_group']"))).SelectByText(contact.SGroup);
-            }
-            catch (Exception)
-            {
-            }
 
             driver.FindElement(By.CssSelector("textarea[name='address2']")).Clear();
             driver.FindElement(By.CssSelector("textarea[name='address2']")).SendKeys(contact.SAddress);

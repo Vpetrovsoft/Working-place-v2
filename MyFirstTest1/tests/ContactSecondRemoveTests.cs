@@ -15,9 +15,8 @@ namespace WebAddressbookTests
         public void ContactSecondRemoveTest()
         {
             app.Navigator.GoToHomePage();
-            app.Contacts.SelectContaсt(0);
+            app.Contacts.GoToEditContact(0);
             app.Contacts.RemoveContact();
-            app.Contacts.ContactCloseAlert();
             app.Auth.Logout();
         }
     }
