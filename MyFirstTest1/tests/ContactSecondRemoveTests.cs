@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace WebAddressbookTests 
 {
     [TestFixture]
-    public class ContactSecondRemoveTests : TestBase
+    public class ContactSecondRemoveTests : AuthTestBase
     {
         [Test]
 
         public void ContactSecondRemoveTest()
         {
             app.Navigator.GoToHomePage();
+            app.Contacts.SelectContaсt(0);
             app.Contacts.GoToEditContact(0);
             app.Contacts.RemoveContact();
             app.Auth.Logout();

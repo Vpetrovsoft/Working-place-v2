@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -17,6 +11,38 @@ namespace WebAddressbookTests
         {
             this.manager = manager;
             driver = manager.Driver;
+        }
+
+        /// <summary>
+        /// Метод к которому обращаются все методы с заполнением полей
+        /// </summary>
+        /// <param name="locator"></param>
+        /// <param name="text"></param>
+        public void Type(By locator, string text)
+        {
+            if (text != null)
+            {
+                driver.FindElement(locator).Clear();
+                driver.FindElement(locator).SendKeys(text);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="by"></param>
+        /// <returns></returns>
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

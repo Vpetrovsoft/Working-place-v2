@@ -1,22 +1,14 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
-    class GroupRemovalTests : TestBase
+    class GroupRemovalTests : AuthTestBase
     {
         [Test]
         public void GroupRemovalTest()
         {
-            app.Navigator.GoToGroupsPage();
-            app.Groups
-                .SelectGroup(1)
-                .RemoveGroup();
-            app.Navigator.GoToGroupsPage();
+            app.Groups.Removal(0);
             app.Auth.Logout();
         }
     }

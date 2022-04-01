@@ -1,16 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
 
         [Test]
@@ -23,6 +17,22 @@ namespace WebAddressbookTests
                 Header = "Kek",
                 Footer = "Cheburek"
             };
+
+            app.Groups.Create(group);
+            app.Auth.Logout();
+        }
+
+        [Test]
+
+        public void EmtyGroupCreationTest()
+        {
+            GroupData group = new GroupData()
+            {
+                Name = "Loly",
+                Header = null,
+                Footer = null
+            };
+
             app.Groups.Create(group);
             app.Auth.Logout();
         }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -24,6 +17,10 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToHomePage()
         {
+            if (driver.Url == baseURL + "/addressbook/")
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL);
         }
         /// <summary>
@@ -31,6 +28,12 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "/addressbook/group.php"
+                && IsElementPresent(By.XPath("//a[contains(text(),'groups')]")))
+            {
+                return;
+            }
+     
             driver.FindElement(By.XPath("//a[contains(text(),'groups')]")).Click();
         }
 
@@ -39,6 +42,12 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToAddContact()
         {
+            //Проверка на нахождение на странице добавления контакта
+            if (driver.Url == baseURL + "/addressbook/edit.php"
+                && IsElementPresent(By.CssSelector("input[name='submit']")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("add new")).Click();
         }
 
@@ -47,6 +56,11 @@ namespace WebAddressbookTests
         /// </summary>
         public void BackToHomePage()
         {
+            if (driver.Url == baseURL + "/addressbook/"
+                && IsElementPresent(By.XPath("//input[@value='Send e-Mail']")))
+            {
+                return;
+            }
             driver.FindElement(By.CssSelector("a[href='./']")).Click();
         }
     }

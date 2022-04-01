@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 
 namespace WebAddressbookTests
@@ -11,22 +6,12 @@ namespace WebAddressbookTests
     public class TestBase
     {
 
-        public ApplicationManager app;
+        protected ApplicationManager app;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManagerTest()
         {
-            app = new ApplicationManager();
-
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+            app = ApplicationManager.GetInstance();
         }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
-        }
-
     }
 }

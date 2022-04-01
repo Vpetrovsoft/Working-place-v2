@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests
 {
@@ -14,6 +9,15 @@ namespace WebAddressbookTests
 
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        public GroupHelper Removal(int z)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(z);
+            RemoveGroup();
+            return this;
+           
         }
 
         /// <summary>
@@ -27,6 +31,7 @@ namespace WebAddressbookTests
             InitNewGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
+
             return this;
         }
 
@@ -62,12 +67,10 @@ namespace WebAddressbookTests
         /// <param name="group"></param>
         public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
-            driver.FindElement(By.CssSelector("textarea[name='group_header']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name='group_header']")).SendKeys(group.Header);
-            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
+            Type(By.CssSelector("input[name='group_name']"), group.Name);
+            Type(By.CssSelector("textarea[name='group_header']"), group.Header);
+            Type(By.CssSelector("textarea[name='group_footer']"), group.Footer);
+
             return this;
         }
 
@@ -82,13 +85,28 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Выбор группы из селектора
+        /// Выбор группы из селектора, если нет, то создать
         /// </summary>
         /// <param name="index"></param>
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
-            return this;
+            var elements = driver.FindElements(By.XPath("//div[@id='content']/form/span[" + index + "]/input"));
+            if (elements.Count == 0)
+            {
+                GroupData group = new GroupData()
+                {
+                    Name = "Lol",
+                    Header = "Kek",
+                    Footer = "Cheburek"
+                };
+
+                //Добавить группу
+                Create(group);
+                manager.Navigator.GoToGroupsPage();
+                elements = driver.FindElements(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input"));
+            }
+            elements[index].Click();
+            return this;            
         }
 
         /// <summary>
