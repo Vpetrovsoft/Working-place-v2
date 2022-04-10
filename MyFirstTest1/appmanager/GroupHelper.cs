@@ -6,18 +6,23 @@ namespace WebAddressbookTests
 {
     public class GroupHelper : HelperBase
     {
+        public int Count;
 
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
         }
 
-        public GroupHelper Removal(int z)
+        public List<GroupData> GetGroupList()
         {
+            List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(z);
-            RemoveGroup();
-            return this;
-           
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+            
         }
 
         /// <summary>
@@ -85,27 +90,13 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Выбор группы из селектора, если нет, то создать
+        /// Выбор группы из селектора
         /// </summary>
         /// <param name="index"></param>
         public GroupHelper SelectGroup(int index)
         {
-            var elements = driver.FindElements(By.XPath("//div[@id='content']/form/span[" + index + "]/input"));
-            if (elements.Count == 0)
-            {
-                GroupData group = new GroupData()
-                {
-                    Name = "Lol",
-                    Header = "Kek",
-                    Footer = "Cheburek"
-                };
-
-                //Добавить группу
-                Create(group);
-                manager.Navigator.GoToGroupsPage();
-                elements = driver.FindElements(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input"));
-            }
-            elements[index].Click();
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1) + "]/input")).Click();
+            
             return this;            
         }
 

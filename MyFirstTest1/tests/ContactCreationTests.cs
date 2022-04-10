@@ -38,8 +38,8 @@ namespace WebAddressbookTests
                 SHome = "1",
                 SNotes = "Примечание"
             };
-            app.Contacts.Creation(contact);
-            app.Auth.Logout();
+            appManager.Contacts.Creation(contact);
+            appManager.Auth.Logout();
         }
     }
 }

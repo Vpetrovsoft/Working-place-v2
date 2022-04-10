@@ -1,11 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using System.Collections.Generic;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+
 
 namespace WebAddressbookTests
 {
     public class ContactHelper : HelperBase
     {
+
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -38,6 +41,18 @@ namespace WebAddressbookTests
             SubmitContactModification();
             manager.Navigator.BackToHomePage();
             return this;
+        }
+
+        public List<ContactForm> GetContactList()
+        {
+            List<ContactForm> contacts = new List<ContactForm>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td.center"));
+            foreach (IWebElement element in elements)
+            {
+                contacts.Add(new ContactForm(element.Text));
+            }
+            return contacts;
         }
 
         /// <summary>

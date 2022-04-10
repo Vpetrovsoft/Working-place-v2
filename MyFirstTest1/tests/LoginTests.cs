@@ -11,16 +11,16 @@ namespace WebAddressbookTests
         public void LoginWithValidCredentials()
         {
             // Готовим тестовую ситуацию
-            app.Auth.Logout();
+            appManager.Auth.Logout();
 
             // Действие
             AccountData account = new AccountData("admin", "secret");
-            app.Auth.Login(account);
+            appManager.Auth.Login(account);
 
             // Проверка
-            Assert.IsTrue(app.Auth.isLoggedIn(account));
+            Assert.IsTrue(appManager.Auth.isLoggedIn(account));
 
-            app.Auth.Logout();
+            appManager.Auth.Logout();
         }
 
         [Test]
@@ -28,16 +28,16 @@ namespace WebAddressbookTests
         public void LoginWithInvalidCredentials()
         {
             // Готовим тестовую ситуацию
-            app.Auth.Logout();
+            appManager.Auth.Logout();
 
             // Действие
             AccountData account = new AccountData("admin", "1234567");
-            app.Auth.Login(account);
+            appManager.Auth.Login(account);
 
             // Проверка
-            Assert.IsFalse (app.Auth.isLoggedIn(account));
+            Assert.IsFalse (appManager.Auth.isLoggedIn(account));
 
-            app.Auth.Logout();
+            appManager.Auth.Logout();
         }
     }
 }

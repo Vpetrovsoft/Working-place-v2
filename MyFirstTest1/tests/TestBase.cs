@@ -6,12 +6,12 @@ namespace WebAddressbookTests
     public class TestBase
     {
 
-        protected ApplicationManager app;
+        protected ApplicationManager appManager;
 
         [SetUp]
         public void SetupApplicationManagerTest()
         {
-            app = ApplicationManager.GetInstance();
+            appManager = ApplicationManager.GetInstance();
         }
     }
 }

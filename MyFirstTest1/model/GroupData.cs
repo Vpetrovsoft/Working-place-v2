@@ -10,5 +10,7 @@ namespace WebAddressbookTests
         public string Footer { get; set; }
        
         public GroupData() {}
+
+        public GroupData(string text) { }
     }
 }

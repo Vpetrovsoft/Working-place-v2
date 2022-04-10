@@ -17,18 +17,19 @@ namespace WebAddressbookTests
         /// </summary>
         public void GoToHomePage()
         {
-            if (driver.Url == baseURL + "/addressbook/")
+            if(IsElementPresent(By.XPath("//input[@value='Send e-Mail']")))
             {
                 return;
             }
             driver.Navigate().GoToUrl(baseURL);
         }
+
         /// <summary>
         /// Возвращение на странциу группы
         /// </summary>
         public void GoToGroupsPage()
         {
-            if (driver.Url == baseURL + "/addressbook/group.php"
+            if (IsElementPresent(By.CssSelector("input[name='new']"))
                 && IsElementPresent(By.XPath("//a[contains(text(),'groups')]")))
             {
                 return;
@@ -43,7 +44,7 @@ namespace WebAddressbookTests
         public void GoToAddContact()
         {
             //Проверка на нахождение на странице добавления контакта
-            if (driver.Url == baseURL + "/addressbook/edit.php"
+            if (IsElementPresent(By.CssSelector("input[name='photo']"))
                 && IsElementPresent(By.CssSelector("input[name='submit']")))
             {
                 return;
@@ -56,7 +57,7 @@ namespace WebAddressbookTests
         /// </summary>
         public void BackToHomePage()
         {
-            if (driver.Url == baseURL + "/addressbook/"
+            if (IsElementPresent(By.CssSelector("input[name=\"add\"]"))
                 && IsElementPresent(By.XPath("//input[@value='Send e-Mail']")))
             {
                 return;

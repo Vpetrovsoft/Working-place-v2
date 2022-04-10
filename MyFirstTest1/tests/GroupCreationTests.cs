@@ -18,8 +18,8 @@ namespace WebAddressbookTests
                 Footer = "Cheburek"
             };
 
-            app.Groups.Create(group);
-            app.Auth.Logout();
+            appManager.Groups.Create(group);
+            appManager.Auth.Logout();
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace WebAddressbookTests
                 Footer = null
             };
 
-            app.Groups.Create(group);
-            app.Auth.Logout();
+            appManager.Groups.Create(group);
+            appManager.Auth.Logout();
         }
     }
 }

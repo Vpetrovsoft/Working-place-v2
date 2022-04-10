@@ -13,7 +13,7 @@ namespace WebAddressbookTests
     public class ApplicationManager
     {
         public string baseURL = "http://localhost/addressbook/";
-        private static ThreadLocal<ApplicationManager>app = new ThreadLocal<ApplicationManager>();
+        private static ThreadLocal<ApplicationManager>appManager = new ThreadLocal<ApplicationManager>();
 
         public IWebDriver Driver { get; }
         public LoginHelper Auth { get; }
@@ -47,13 +47,13 @@ namespace WebAddressbookTests
 
         public static ApplicationManager GetInstance()
         {
-            if (! app.IsValueCreated)
+            if (! appManager.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.Navigator.GoToHomePage();
-                app.Value = newInstance;
+                appManager.Value = newInstance;
             }
-            return app.Value;
+            return appManager.Value;
         }
     }
 }

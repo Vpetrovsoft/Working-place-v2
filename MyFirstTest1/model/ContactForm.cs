@@ -36,5 +36,7 @@ namespace WebAddressbookTests
         public string SNotes { get; set; }
 
         public ContactForm() {}
+
+        public ContactForm(string text) {}
     }
 }
