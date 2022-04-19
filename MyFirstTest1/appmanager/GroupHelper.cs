@@ -12,6 +12,10 @@ namespace WebAddressbookTests
         {
         }
 
+        /// <summary>
+        /// Метод, который считает количество элементов в списке и возвращает его.
+        /// </summary>
+        /// <returns></returns>
         public List<GroupData> GetGroupList()
         {
             List<GroupData> groups = new List<GroupData>();

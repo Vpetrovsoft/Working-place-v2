@@ -10,9 +10,9 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModificationTest()
         {
-            List<GroupData> groups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
 
-            if (groups.Count == 0)
+            if (oldGroups.Count == 0)
             {
                 GroupData group = new GroupData()
                 {
@@ -33,6 +33,8 @@ namespace WebAddressbookTests
                 Footer = "Modify_Cheburek"
             };
             appManager.Groups.Modify(0, newData);
+            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            Assert.AreEqual(oldGroups, newGroups);
             appManager.Auth.Logout();
         }
     }

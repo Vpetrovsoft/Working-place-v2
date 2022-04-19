@@ -43,11 +43,15 @@ namespace WebAddressbookTests
             return this;
         }
 
+        /// <summary>
+        /// Метод, который считает количество элементов в списке и возвращает его.
+        /// </summary>
+        /// <returns></returns>
         public List<ContactForm> GetContactList()
         {
             List<ContactForm> contacts = new List<ContactForm>();
             manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td.center"));
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
             foreach (IWebElement element in elements)
             {
                 contacts.Add(new ContactForm(element.Text));
@@ -135,26 +139,8 @@ namespace WebAddressbookTests
         /// <returns></returns>
         public ContactHelper SelectContaсt(int index)
         {
-            var elements = driver.FindElements(By.CssSelector("[name='selected[]']"));
-            if (elements.Count == 0)
-            {
-                ContactForm contact = new ContactForm()
-                {
-                    LastName = "Bumagad",
-                    FirstName = "Bitya",
-                    BDay = "12",
-                    BMonth = "May",
-                    BYear = "1991",
-                    ADay = "11",
-                    AMonth = "April",
-                    SGroup = "Loly"
-                };
-
-                //Добавить контакт
-                Creation(contact);
-                elements = driver.FindElements(By.CssSelector("[name='selected[]']"));
-            }
-            elements[index].Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[" + (index + 1) + "]/input")).Click();
+            
             return this;
         }
 

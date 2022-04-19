@@ -1,7 +1,8 @@
-﻿
+﻿using System;
+
 namespace WebAddressbookTests
 {
-    public class ContactForm
+    public class ContactForm : IEquatable<ContactForm>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -38,5 +39,23 @@ namespace WebAddressbookTests
         public ContactForm() {}
 
         public ContactForm(string text) {}
+
+        public bool Equals(ContactForm other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return FirstName == other.FirstName && LastName == other.LastName;            
+        }
+
+        public override int GetHashCode()
+        {
+            return FirstName.GetHashCode() & LastName.GetHashCode();
+        }
     }
 }

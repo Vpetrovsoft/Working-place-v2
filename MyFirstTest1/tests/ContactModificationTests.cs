@@ -10,8 +10,8 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            List<ContactForm> contacts = appManager.Contacts.GetContactList();
-            if (contacts.Count == 0)
+            List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
+            if (oldContacts.Count == 0)
             {
                 ContactForm contact = new ContactForm()
                 {
@@ -73,6 +73,8 @@ namespace WebAddressbookTests
                 SNotes = "о да"
             };
             appManager.Contacts.ModifyContact(0, newContact);
+            List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            Assert.AreEqual(oldContacts, newContacts);
             appManager.Auth.Logout();
         }
     }

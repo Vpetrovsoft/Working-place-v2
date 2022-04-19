@@ -11,9 +11,9 @@ namespace WebAddressbookTests
         {
             appManager.Navigator.GoToGroupsPage();
 
-            List<GroupData> groups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
 
-            if (groups.Count == 0)
+            if (oldGroups.Count == 0)
             {
                 GroupData group = new GroupData()
                 {
@@ -29,7 +29,9 @@ namespace WebAddressbookTests
             
             appManager.Groups.SelectGroup(0);
             appManager.Groups.RemoveGroup();
-          
+            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
             appManager.Auth.Logout();
         }
     }

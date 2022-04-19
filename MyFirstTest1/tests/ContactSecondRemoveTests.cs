@@ -11,9 +11,9 @@ namespace WebAddressbookTests
         public void ContactSecondRemoveTest()
         {
             appManager.Navigator.GoToHomePage();
-            List<ContactForm> contacts = appManager.Contacts.GetContactList();
+            List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
 
-            if (contacts.Count == 0)
+            if (oldContacts.Count == 0)
             {
                 ContactForm contact = new ContactForm()
                 {
@@ -48,6 +48,9 @@ namespace WebAddressbookTests
             appManager.Contacts.SelectContaсt(0);
             appManager.Contacts.GoToEditContact(0);
             appManager.Contacts.RemoveContact();
+            List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
             appManager.Auth.Logout();
         }
     }

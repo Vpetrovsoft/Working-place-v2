@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -38,7 +39,10 @@ namespace WebAddressbookTests
                 SHome = "1",
                 SNotes = "Примечание"
             };
+            List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
             appManager.Contacts.Creation(contact);
+            List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
             appManager.Auth.Logout();
         }
     }
