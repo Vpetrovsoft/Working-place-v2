@@ -48,8 +48,11 @@ namespace WebAddressbookTests
             appManager.Contacts.SelectContaсt(0);
             appManager.Contacts.RemoveContact();
             appManager.Contacts.ContactCloseAlert();
+
             List<ContactForm> newContacts = appManager.Contacts.GetContactList();
             oldContacts.RemoveAt(0);
+            oldContacts.Sort();
+            newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
             appManager.Auth.Logout();
         }

@@ -19,10 +19,13 @@ namespace WebAddressbookTests
                 Footer = "Cheburek"
             };
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();       
-            appManager.Groups.Create(group);
-            
+            appManager.Groups.Create(group);            
+            Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
             List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();            
+            Assert.AreEqual(oldGroups, newGroups);
             appManager.Auth.Logout();
         }
 
@@ -33,14 +36,18 @@ namespace WebAddressbookTests
             GroupData group = new GroupData()
             {
                 Name = "Loly",
-                Header = null,
-                Footer = null
+                Header = "change1",
+                Footer = "change2",
             };
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
             appManager.Groups.Create(group);
+            Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
             List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
             
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
             appManager.Auth.Logout();
         }
 
@@ -51,13 +58,18 @@ namespace WebAddressbookTests
             GroupData group = new GroupData()
             {
                 Name = "a'a",
-                Header = null,
-                Footer = null
+                Header = "b'b",
+                Footer = "c'c"
             };
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+
             appManager.Groups.Create(group);
+
+            Assert.AreEqual(oldGroups.Count, appManager.Groups.GetGroupCount());
             List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Sort();
+            newGroups.Sort();   
+            Assert.AreEqual(oldGroups, newGroups);
             appManager.Auth.Logout();
         }
     }

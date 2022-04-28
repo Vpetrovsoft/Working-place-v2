@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -9,6 +10,8 @@ namespace WebAddressbookTests
         public string Header { get; set; }
 
         public string Footer { get; set; }
+
+        public string Id { get; set; }
        
         public GroupData() {}
 
@@ -32,7 +35,7 @@ namespace WebAddressbookTests
                 return true;
             }
             //Сравниваем имена
-            return Name == other.Name;
+            return Name == other.Name && Header == other.Header && Footer == other.Footer;
         }
         /// <summary>
         /// Метод сравнивающий объекты по хэш-коду
@@ -40,7 +43,7 @@ namespace WebAddressbookTests
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return (Name + Header + Footer).GetHashCode();
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace WebAddressbookTests
         /// <returns></returns>
         public override string ToString()
         {
-            return "name=" + Name;
+            return "\nname=" + Name + "\nheader=" + Header + "\nfooter=" + Footer;            
         }
 
         /// <summary>

@@ -34,15 +34,22 @@ namespace WebAddressbookTests
                 ADay = "12",
                 AMonth = "April",
                 AYear = "2021",
-                SGroup = "Lol",
+                SGroup = "new",
                 SAddress = "Lenina",
                 SHome = "1",
                 SNotes = "Примечание"
             };
             List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
+
             appManager.Contacts.Creation(contact);
+
+            Assert.AreEqual(oldContacts.Count + 1, appManager.Contacts.GetContactCount());
             List<ContactForm> newContacts = appManager.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+
             appManager.Auth.Logout();
         }
     }

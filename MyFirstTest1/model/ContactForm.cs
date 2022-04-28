@@ -2,7 +2,7 @@
 
 namespace WebAddressbookTests
 {
-    public class ContactForm : IEquatable<ContactForm>
+    public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -36,6 +36,9 @@ namespace WebAddressbookTests
         public string SHome { get; set; }
         public string SNotes { get; set; }
 
+        public string Id { get; set; }
+        public string FullName { get; set; }
+
         public ContactForm() {}
 
         public ContactForm(string text) {}
@@ -55,7 +58,21 @@ namespace WebAddressbookTests
 
         public override int GetHashCode()
         {
-            return FirstName.GetHashCode() & LastName.GetHashCode();
+            return (FirstName + LastName).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "\n" + "firstName=" + FirstName + ", " + "\n" + "lastName=" + LastName + "\n";
+        }
+
+        public int CompareTo(ContactForm other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return FirstName.CompareTo(other.FirstName);
         }
     }
 }

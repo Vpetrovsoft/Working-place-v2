@@ -11,6 +11,8 @@ namespace WebAddressbookTests
         public void ContactModificationTest()
         {
             List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
+            ContactForm oldData = oldContacts[0];
+
             if (oldContacts.Count == 0)
             {
                 ContactForm contact = new ContactForm()
@@ -51,7 +53,7 @@ namespace WebAddressbookTests
                 MiddleName = "Leonidovich",
                 NickName = "Gerakl228",
                 Title = "Hello",
-                Company = "ООО'ПсковСтройСмесь'",
+                Company = "ОООПсковСтройСмесь",
                 Address = "переулок между булок",
                 THome = "13",
                 TMobile = "8-938-652-88-77",
@@ -70,11 +72,24 @@ namespace WebAddressbookTests
                 SGroup = "Lol",
                 SAddress = "Lenina",
                 SHome = "1",
-                SNotes = "о да"
+                SNotes = "ода"
             };
             appManager.Contacts.ModifyContact(0, newContact);
+
+            Assert.AreEqual(oldContacts.Count, appManager.Contacts.GetContactCount());
             List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            oldContacts[0].FirstName = newContact.FirstName;
+            oldContacts[0].LastName = newContact.LastName;
+            oldContacts.Sort();
+            newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactForm contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(contact.FirstName, newContact.FirstName);
+                }
+            }
             appManager.Auth.Logout();
         }
     }

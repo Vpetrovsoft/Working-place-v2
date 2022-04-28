@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -12,6 +13,69 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+
+        private List<ContactForm> contactCache = null;
+
+        /// <summary>
+        /// Метод, который считает количество элементов в списке и возвращает его.
+        /// </summary>
+        /// <returns></returns>
+        public List<ContactForm> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactForm>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+                List<string> contactIdList = new List<string>();
+
+                foreach (IWebElement element in elements)
+                {
+                    ContactForm contact = new ContactForm();
+                    var tdElements = element.FindElements(By.CssSelector("td"));
+                    var contactIDs = element.FindElement(By.TagName("input")).GetAttribute("id");
+                    string textFirstName = tdElements[2].Text;
+                    contact.FirstName = textFirstName;
+                    string textLastName = tdElements[1].Text;
+                    contact.LastName = textLastName;
+                    string textFullName = tdElements[1].Text + " " + tdElements[2].Text;
+                    contact.FullName = textFullName;
+                    contact.Id = contactIDs;
+
+                    contactCache.Add(contact);
+                }
+            }
+            return new List<ContactForm>(contactCache);
+        }
+
+        /*
+
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                List<string> groupIDsList = new List<string>();
+                foreach (IWebElement element in elements)
+                {
+                    groupIDsList.Add(element.FindElement(By.TagName("input")).GetAttribute("value"));                  
+                }
+
+                foreach (var item in groupIDsList)
+                {
+                    GroupData fullGroupModel = new GroupData();
+                    driver.FindElement(By.CssSelector("input[name='selected[]'][value='" + item + "']")).Click();
+                    InitNewGroupModifycation();
+                    fullGroupModel.Id = item;
+                    fullGroupModel.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");
+                    fullGroupModel.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
+                    fullGroupModel.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
+                    manager.Navigator.GoToGroupsPage();
+                    groupCache.Add(fullGroupModel);
+                }
+            }
+            return new List<GroupData>(groupCache);
+        */
 
         /// <summary>
         /// Создание контакта
@@ -30,13 +94,13 @@ namespace WebAddressbookTests
         /// <summary>
         /// Редактирование контакта
         /// </summary>
-        /// <param name="v"></param>
+        /// <param name="index"></param>
         /// <param name="newContact"></param>
         /// <returns></returns>
-        public ContactHelper ModifyContact(int v, ContactForm newContact)
+        public ContactHelper ModifyContact(int index, ContactForm newContact)
         {
             manager.Navigator.GoToHomePage();
-            GoToEditContact(v);
+            GoToEditContact(index);
             ContactFillForm(newContact, needFillGroup:false);
             SubmitContactModification();
             manager.Navigator.BackToHomePage();
@@ -44,29 +108,23 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Метод, который считает количество элементов в списке и возвращает его.
+        /// Метод передающий количество элементов в списке
         /// </summary>
         /// <returns></returns>
-        public List<ContactForm> GetContactList()
+        public int GetContactCount()
         {
-            List<ContactForm> contacts = new List<ContactForm>();
             manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-            foreach (IWebElement element in elements)
-            {
-                contacts.Add(new ContactForm(element.Text));
-            }
-            return contacts;
+            return driver.FindElements(By.Name("entry")).Count;
         }
 
         /// <summary>
         /// Выбор и переход в изменение контакта
         /// </summary>
-        /// <param name="v"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public ContactHelper GoToEditContact(int v)
+        public ContactHelper GoToEditContact(int index)
         {
-            driver.FindElement(By.CssSelector("table[id=maintable] td:nth-child(8) a")).Click();
+            driver.FindElements(By.CssSelector("table[id=maintable] td:nth-child(8) a"))[index].Click();
             return this;
         }
 
@@ -120,6 +178,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -130,6 +189,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -161,6 +221,7 @@ namespace WebAddressbookTests
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
     }

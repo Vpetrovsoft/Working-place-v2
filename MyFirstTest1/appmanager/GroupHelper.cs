@@ -12,23 +12,42 @@ namespace WebAddressbookTests
         {
         }
 
+        private List<GroupData> groupCache = null;
+
         /// <summary>
         /// Метод, который считает количество элементов в списке и возвращает его.
         /// </summary>
         /// <returns></returns>
         public List<GroupData> GetGroupList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements)
+            if (groupCache == null)
             {
-                groups.Add(new GroupData(element.Text));
-            }
-            return groups;
-            
-        }
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                List<string> groupIdList = new List<string>();
+                foreach (IWebElement element in elements)
+                {
+                    groupIdList.Add(element.FindElement(By.TagName("input")).GetAttribute("value"));                  
+                }
 
+                foreach (var item in groupIdList)
+                {
+                    GroupData fullGroupModel = new GroupData();
+                    driver.FindElement(By.CssSelector("input[name='selected[]'][value='" + item + "']")).Click();
+                    InitNewGroupModifycation();
+                    fullGroupModel.Id = item;
+                    fullGroupModel.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");
+                    fullGroupModel.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
+                    fullGroupModel.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
+                    manager.Navigator.GoToGroupsPage();
+                    groupCache.Add(fullGroupModel);
+                }
+            }
+            return new List<GroupData>(groupCache);
+        }
+          
+               
         /// <summary>
         /// Метод создания группы
         /// </summary>
@@ -40,7 +59,7 @@ namespace WebAddressbookTests
             InitNewGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
-
+            manager.Navigator.GoToGroupsPage();
             return this;
         }
 
@@ -70,6 +89,12 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public int GetGroupCount()
+        {
+            manager.Navigator.GoToGroupsPage();
+            return driver.FindElements(By.CssSelector("span.group")).Count;
+        }
+
         /// <summary>
         /// Заполнение полей группы
         /// </summary>
@@ -90,6 +115,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -110,6 +136,7 @@ namespace WebAddressbookTests
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.CssSelector("input[name='delete']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -120,6 +147,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupModifycation()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            groupCache = null;
             return this;
         }
 
