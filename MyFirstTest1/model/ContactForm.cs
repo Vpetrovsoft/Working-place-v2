@@ -65,13 +65,25 @@ namespace WebAddressbookTests
             return "\n" + "firstName=" + FirstName + ", " + "\n" + "lastName=" + LastName + "\n";
         }
 
+        //ты сравниваешь сначала имя,
+        //CompareTo вернет тебе  равно или не равно,
+        //если равно то следующим сравниваешь фамилию,
+        //если не равно то возвращаешь результат сравнения имени
+
         public int CompareTo(ContactForm other)
         {
             if (Object.ReferenceEquals(other, null))
             {
                 return 1;
             }
-            return FirstName.CompareTo(other.FirstName) + LastName.CompareTo(other.LastName);
+            var res = FirstName.CompareTo(other.FirstName);
+            
+            if (res == 0)
+            {
+                return LastName.CompareTo(other.LastName);
+            }
+            return res;
+
         }
     }
 }

@@ -31,12 +31,10 @@ namespace WebAddressbookTests
                 foreach (IWebElement element in elements)
                 {
                     ContactForm contact = new ContactForm();
-                    var contactIDs = element.FindElement(By.TagName("input")).GetAttribute("id");
-                    string textFirstName = element.FindElements(By.CssSelector("td"))[2].Text;
-                    contact.FirstName = textFirstName;
-                    string textLastName = element.FindElements(By.CssSelector("td"))[1].Text;
-                    contact.LastName = textLastName;
-                    contact.Id = contactIDs;
+                    var tDelements = element.FindElements(By.CssSelector("td"));                                       
+                    contact.FirstName = tDelements[2].Text;
+                    contact.LastName = tDelements[1].Text;
+                    contact.Id = element.FindElement(By.TagName("input")).GetAttribute("id");
 
                     contactCache.Add(contact);
                 }
