@@ -49,11 +49,18 @@ namespace WebAddressbookTests
             appManager.Contacts.GoToEditContact(0);
             appManager.Contacts.RemoveContact();
 
+            Assert.AreEqual(oldContacts.Count - 1, appManager.Contacts.GetContactCount());
             List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            ContactForm toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactForm contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
             appManager.Auth.Logout();
         }
     }

@@ -47,6 +47,8 @@ namespace WebAddressbookTests
                 if (group.Id == oldData.Id)
                 {
                     Assert.AreEqual(newData.Name, group.Name);
+                    Assert.AreEqual(newData.Header, group.Header);
+                    Assert.AreEqual(newData.Footer, group.Footer);
                 }
             }
             appManager.Auth.Logout();

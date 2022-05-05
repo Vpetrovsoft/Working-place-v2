@@ -37,7 +37,6 @@ namespace WebAddressbookTests
         public string SNotes { get; set; }
 
         public string Id { get; set; }
-        public string FullName { get; set; }
 
         public ContactForm() {}
 
@@ -72,7 +71,7 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return FirstName.CompareTo(other.FirstName);
+            return FirstName.CompareTo(other.FirstName) + LastName.CompareTo(other.LastName);
         }
     }
 }

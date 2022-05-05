@@ -88,6 +88,7 @@ namespace WebAddressbookTests
                 if (contact.Id == oldData.Id)
                 {
                     Assert.AreEqual(contact.FirstName, newContact.FirstName);
+                    Assert.AreEqual(contact.LastName, newContact.LastName);
                 }
             }
             appManager.Auth.Logout();

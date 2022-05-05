@@ -24,11 +24,11 @@ namespace WebAddressbookTests
             {
                 groupCache = new List<GroupData>();
                 manager.Navigator.GoToGroupsPage();
-                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group input"));
                 List<string> groupIdList = new List<string>();
                 foreach (IWebElement element in elements)
                 {
-                    groupIdList.Add(element.FindElement(By.TagName("input")).GetAttribute("value"));                  
+                    groupIdList.Add(element.GetAttribute("value"));  
                 }
 
                 foreach (var item in groupIdList)
