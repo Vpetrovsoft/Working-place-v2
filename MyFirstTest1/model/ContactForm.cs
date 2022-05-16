@@ -4,6 +4,8 @@ namespace WebAddressbookTests
 {
     public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
     {
+        private string allEmails;
+        private string allPhones;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -37,10 +39,56 @@ namespace WebAddressbookTests
         public string SNotes { get; set; }
 
         public string Id { get; set; }
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return Email + "\r\n" + Email2 + "\r\n" + Email3;
+                }
+
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(THome) + CleanUp(TMobile) + CleanUp(TWork) + CleanUp(SHome)).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
 
         public ContactForm() {}
 
         public ContactForm(string text) {}
+
+        public string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
 
         public bool Equals(ContactForm other)
         {
@@ -64,11 +112,6 @@ namespace WebAddressbookTests
         {
             return "\n" + "firstName=" + FirstName + ", " + "\n" + "lastName=" + LastName + "\n";
         }
-
-        //ты сравниваешь сначала имя,
-        //CompareTo вернет тебе  равно или не равно,
-        //если равно то следующим сравниваешь фамилию,
-        //если не равно то возвращаешь результат сравнения имени
 
         public int CompareTo(ContactForm other)
         {

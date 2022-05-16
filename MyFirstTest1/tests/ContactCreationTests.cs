@@ -34,7 +34,7 @@ namespace WebAddressbookTests
                 ADay = "12",
                 AMonth = "April",
                 AYear = "2021",
-                SGroup = "new",
+                SGroup = "Lol",
                 SAddress = "Lenina",
                 SHome = "1",
                 SNotes = "Примечание"
