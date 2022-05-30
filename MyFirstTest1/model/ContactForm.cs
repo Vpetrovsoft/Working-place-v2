@@ -49,7 +49,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return Email + "\r\n" + Email2 + "\r\n" + Email3;
+                    return (CleanUpEmails(Email) + CleanUpEmails(Email2) + CleanUpEmails(Email3)).Trim();
                 }
 
             }
@@ -68,7 +68,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (CleanUp(THome) + CleanUp(TMobile) + CleanUp(TWork) + CleanUp(SHome)).Trim();
+                    return (CleanUpPhones(THome) + CleanUpPhones(TMobile) + CleanUpPhones(TWork) + CleanUpPhones(SHome)).Trim();
                 }
             }
             set
@@ -81,13 +81,22 @@ namespace WebAddressbookTests
 
         public ContactForm(string text) {}
 
-        public string CleanUp(string phone)
+        public string CleanUpPhones(string phone)
         {
             if (phone == null || phone == "")
             {
                 return "";
             }
             return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
+
+        public string CleanUpEmails(string mail)
+        {
+            if (mail == null || mail == "")
+            {
+                return "";
+            }
+            return mail.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
         public bool Equals(ContactForm other)

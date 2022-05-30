@@ -21,19 +21,14 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"));
-            string lastName = cells[1].Text;
-            string firstName = cells[2].Text;
-            string address = cells[3].Text;
-            string allEmail = cells[4].Text;
-            string allPhones = cells[5].Text;
 
             return new ContactForm()
             {
-                LastName = lastName,
-                FirstName = firstName,
-                Address = address,
-                AllEmails = allEmail,
-                AllPhones = allPhones
+                LastName = cells[1].Text,
+                FirstName = cells[2].Text,
+                Address = cells[3].Text,
+                AllEmails = cells[4].Text,
+                AllPhones = cells[5].Text
             };
 
         }
@@ -47,57 +42,33 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             GoToEditContact(index);
-            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
-            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
-            string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
-            string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
-            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
-            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
-            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
-            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
-            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
-            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
-            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
-            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
-            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
-            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
-            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
-            string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
-            string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
-            string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
-            string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
-            string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
-            string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
-            string secondAddress = driver.FindElement(By.Name("address2")).GetAttribute("value");
-            string secondHomePhone = driver.FindElement(By.Name("phone2")).GetAttribute("value");
-            string secondNotes = driver.FindElement(By.Name("notes")).GetAttribute("value");
 
             return new ContactForm()
             {
-                LastName = lastName,
-                FirstName = firstName,
-                MiddleName = middleName,
-                NickName = nickName,
-                Title = title,
-                Company = company,
-                Address = address,
-                THome = homePhone,
-                TMobile = mobilePhone,
-                TWork = workPhone,
-                TFax = fax,
-                Email = email,
-                Email2 = email2,
-                Email3 = email3,
-                Homepage = homepage,
-                BDay = bday,
-                BMonth = bmonth,
-                BYear = byear,
-                ADay = aday,
-                AMonth = amonth,
-                AYear = ayear,
-                SAddress = secondAddress,
-                SHome = secondHomePhone,
-                SNotes = secondNotes
+                LastName = driver.FindElement(By.Name("lastname")).GetAttribute("value"),
+                FirstName = driver.FindElement(By.Name("firstname")).GetAttribute("value"),
+                MiddleName = driver.FindElement(By.Name("middlename")).GetAttribute("value"),
+                NickName = driver.FindElement(By.Name("nickname")).GetAttribute("value"),
+                Title = driver.FindElement(By.Name("title")).GetAttribute("value"),
+                Company = driver.FindElement(By.Name("company")).GetAttribute("value"),
+                Address = driver.FindElement(By.Name("address")).GetAttribute("value"),
+                THome = driver.FindElement(By.Name("home")).GetAttribute("value"),
+                TMobile = driver.FindElement(By.Name("mobile")).GetAttribute("value"),
+                TWork = driver.FindElement(By.Name("work")).GetAttribute("value"),
+                TFax = driver.FindElement(By.Name("fax")).GetAttribute("value"),
+                Email = driver.FindElement(By.Name("email")).GetAttribute("value"),
+                Email2 = driver.FindElement(By.Name("email2")).GetAttribute("value"),
+                Email3 = driver.FindElement(By.Name("email3")).GetAttribute("value"),
+                Homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value"),
+                BDay = driver.FindElement(By.Name("bday")).GetAttribute("value"),
+                BMonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value"),
+                BYear = driver.FindElement(By.Name("byear")).GetAttribute("value"),
+                ADay = driver.FindElement(By.Name("aday")).GetAttribute("value"),
+                AMonth = driver.FindElement(By.Name("amonth")).GetAttribute("value"),
+                AYear = driver.FindElement(By.Name("ayear")).GetAttribute("value"),
+                SAddress = driver.FindElement(By.Name("address2")).GetAttribute("value"),
+                SHome = driver.FindElement(By.Name("phone2")).GetAttribute("value"),
+                SNotes = driver.FindElement(By.Name("notes")).GetAttribute("value")
 
             };
         }
