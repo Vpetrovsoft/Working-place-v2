@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -6,6 +7,7 @@ namespace WebAddressbookTests
     {
         private string allEmails;
         private string allPhones;
+ 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -23,13 +25,35 @@ namespace WebAddressbookTests
         public string Homepage { get; set; }
 
         // Селекторы дня рождения
-        public string BDay { get; set; }
-        public string BMonth { get; set; }
+        public int BDay { get; set; }
+        public int BMonth { get; set; }
+        public string bMonth
+        {
+            get
+            {
+                return MonthsOfYear[bMonth].ToString();
+            }
+            set
+            {
+                BMonth = MonthsOfYear[value];
+            }
+        }
         public string BYear { get; set; }
 
         // Селекторы Anniversary
-        public string ADay { get; set; }
-        public string AMonth { get; set; }
+        public int ADay { get; set; }
+        public int AMonth { get; set; }
+        public string aMonth
+        {
+            get
+            {
+                return MonthsOfYear[aMonth].ToString();
+            }
+            set
+            {
+                AMonth = MonthsOfYear[value];
+            }
+        }
         public string AYear { get; set; }
         // Селектор выбора группы
         public string SGroup { get; set; }
@@ -39,6 +63,8 @@ namespace WebAddressbookTests
         public string SNotes { get; set; }
 
         public string Id { get; set; }
+
+        public string AllDetails { get; set; }
         public string AllEmails
         {
             get
@@ -90,6 +116,7 @@ namespace WebAddressbookTests
             return phoneOrMail.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
+
         public bool Equals(ContactForm other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -126,7 +153,23 @@ namespace WebAddressbookTests
                 return LastName.CompareTo(other.LastName);
             }
             return res;
-
         }
+
+        public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
+        {
+            { "-", 0 },
+            { "January", 1 },
+            { "February", 2 },
+            { "March", 3 },
+            { "April", 4 },
+            { "May", 5 },
+            { "June", 6 },
+            { "July", 7 },
+            { "August", 8 },
+            { "September", 9 },
+            { "October", 10 },
+            { "November", 11 },
+            { "December", 12 }
+        };
     }
 }

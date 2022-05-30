@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Globalization;
 
 
 namespace WebAddressbookTests
@@ -16,6 +17,120 @@ namespace WebAddressbookTests
 
         private List<ContactForm> contactCache = null;
 
+        /// <summary>
+        /// Возвращает строку из формы
+        /// </summary>
+        /// <param name="convertToString"></param>
+        /// <returns></returns>
+        public string GetStringFromForm(ContactForm convertToString)
+        {
+            string allDetails =
+                convertToString.FirstName + " " + convertToString.MiddleName + " " + convertToString.LastName + "\r\n" +
+                convertToString.NickName + "\r\n" +
+                convertToString.Title + "\r\n" +
+                convertToString.Company + "\r\n" +
+                convertToString.Address + "\r\n" +
+                "\r\n" +
+                "H: " + convertToString.THome + "\r\n" +
+                "M: " + convertToString.TMobile + "\r\n" +
+                "W: " + convertToString.TWork + "\r\n" +
+                "F: " + convertToString.TFax + "\r\n" +
+                "\r\n" +
+                convertToString.Email + "\r\n" +
+                convertToString.Email2 + "\r\n" +
+                convertToString.Email3 + "\r\n" +
+                "Homepage:" + "\r\n" + convertToString.Homepage + "\r\n" +
+                "\r\n" +
+                "Birthday " + DayValidate(convertToString.BDay) + ". " +
+                    MonthValidate(convertToString.BMonth) + " " +
+                    convertToString.BYear + " " + "(" + GetAgeForBirthDay(convertToString) + ")" + "\r\n" +
+                "Anniversary " + DayValidate(convertToString.ADay) + ". " +
+                    MonthValidate(convertToString.AMonth) + " " +
+                    convertToString.AYear + " " + "(" + GetAgeForAnniversary(convertToString) + ")" + "\r\n" +
+                "\r\n" +
+                convertToString.SAddress + "\r\n" +
+                "\r\n" +
+                "P: " + convertToString.SHome + "\r\n" +
+                "\r\n" +
+                convertToString.SNotes + "\r\n" +
+                 "\r\n" +
+                 "\r\n" +
+                convertToString.SGroup;
+
+            return allDetails;
+        }
+
+        /// <summary>
+        /// Возвращает возраст контакта с учётом месяца и дня
+        /// </summary>
+        /// <param name="contactForm"></param>
+        /// <returns></returns>
+        public string GetAgeForBirthDay(ContactForm contactForm)
+        {
+            var now = DateTime.Today;
+            bool valuesOfContact = int.TryParse(contactForm.BYear, out int result);
+            if (valuesOfContact)
+            {
+                int calculateYearOfBirth = now.Year - result - 1
+                    + (now.Month >= contactForm.BMonth && now.Day >= contactForm.BDay ? 1 : 0);
+                string resultOfCalculate = Convert.ToString(calculateYearOfBirth);
+                return resultOfCalculate;
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Возвращает дату годовщины
+        /// </summary>
+        /// <param name="contactForm"></param>
+        /// <returns></returns>
+        public string GetAgeForAnniversary(ContactForm contactForm)
+        {
+            var now = DateTime.Today;
+            bool contactDate = int.TryParse(contactForm.AYear, out int result);
+            if (contactDate)
+            {
+                int calculateYearOfBirth = now.Year - result - 1
+                    + (now.Month >= contactForm.BMonth && now.Day >= contactForm.BDay ? 1 : 0);
+                string resultOfCalculate = Convert.ToString(calculateYearOfBirth);
+                return resultOfCalculate;
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Валидирует день ( получает целое число и конвертит в string )
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        string DayValidate(int day)
+        {
+            if (day == 0)
+            {
+                return "";
+            }
+            return Convert.ToString(day);
+        }
+
+        /// <summary>
+        /// Валидация месяца, аналогично дню
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
+        string MonthValidate(int months)
+        {
+            if (months == 0)
+            {
+                return "";
+            }
+            return $"{ new DateTime().AddMonths(months - 1).ToString("MMMM", new CultureInfo("en-US"))}";
+        }
+
+        /// <summary>
+        /// Возвращает информацию с главной страницы
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ContactForm GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToHomePage();
@@ -60,17 +175,47 @@ namespace WebAddressbookTests
                 Email2 = driver.FindElement(By.Name("email2")).GetAttribute("value"),
                 Email3 = driver.FindElement(By.Name("email3")).GetAttribute("value"),
                 Homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value"),
-                BDay = driver.FindElement(By.Name("bday")).GetAttribute("value"),
-                BMonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value"),
+                BDay = Convert.ToInt32(driver.FindElement(By.Name("bday")).GetAttribute("value")),
+                BMonth = ContactForm.MonthsOfYear[driver.FindElement(By.Name("bmonth")).GetAttribute("value")],
                 BYear = driver.FindElement(By.Name("byear")).GetAttribute("value"),
-                ADay = driver.FindElement(By.Name("aday")).GetAttribute("value"),
-                AMonth = driver.FindElement(By.Name("amonth")).GetAttribute("value"),
+                ADay = Convert.ToInt32(driver.FindElement(By.Name("aday")).GetAttribute("value")),
+                AMonth = ContactForm.MonthsOfYear[driver.FindElement(By.Name("amonth")).GetAttribute("value")],
                 AYear = driver.FindElement(By.Name("ayear")).GetAttribute("value"),
                 SAddress = driver.FindElement(By.Name("address2")).GetAttribute("value"),
                 SHome = driver.FindElement(By.Name("phone2")).GetAttribute("value"),
                 SNotes = driver.FindElement(By.Name("notes")).GetAttribute("value")
 
             };
+        }
+
+        /// <summary>
+        /// Возвращает информацию о контакте в разделе Details
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public string GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            GoToDetails(index);
+            string allDetails = driver.FindElement(By.CssSelector("div[id='content']")).Text.Trim();
+            if (allDetails.Contains("Member of"))
+            {
+                return allDetails.Remove(allDetails.IndexOf("Member of"));
+            }
+            return allDetails;
+        }
+
+        /// <summary>
+        /// Перейти на страницу Details
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ContactHelper GoToDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+            return this;
         }
 
         /// <summary>
@@ -173,13 +318,13 @@ namespace WebAddressbookTests
             Type(By.CssSelector("input[name='homepage']"), contact.Homepage);
 
             //Заполнение селектора даты рождения
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='bday']"))).SelectByText(contact.BDay);
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='bmonth']"))).SelectByText(contact.BMonth);
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='bday']"))).SelectByIndex(contact.BDay);
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='bmonth']"))).SelectByIndex(contact.BMonth);
             Type(By.CssSelector("input[name='byear']"), contact.BYear);
 
             // Селектор Anniversary
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='aday']"))).SelectByText(contact.ADay);
-            new SelectElement(driver.FindElement(By.CssSelector("select[name='amonth']"))).SelectByText(contact.AMonth);
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='aday']"))).SelectByIndex(contact.ADay);
+            new SelectElement(driver.FindElement(By.CssSelector("select[name='amonth']"))).SelectByIndex(contact.AMonth);
             Type(By.CssSelector("input[name='ayear']"), contact.AYear);
 
             // Селектор выбора группы
