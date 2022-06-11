@@ -7,7 +7,9 @@ namespace WebAddressbookTests
     {
         private string allEmails;
         private string allPhones;
- 
+        private string fullBirthdayDate;
+        private string fullAnniversaryDate;
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -25,35 +27,15 @@ namespace WebAddressbookTests
         public string Homepage { get; set; }
 
         // Селекторы дня рождения
-        public int BDay { get; set; }
-        public int BMonth { get; set; }
-        public string bMonth
-        {
-            get
-            {
-                return MonthsOfYear[bMonth].ToString();
-            }
-            set
-            {
-                BMonth = MonthsOfYear[value];
-            }
-        }
+        public string BDay { get; set; }
+        public string BMonth { get; set; }
+
         public string BYear { get; set; }
 
         // Селекторы Anniversary
-        public int ADay { get; set; }
-        public int AMonth { get; set; }
-        public string aMonth
-        {
-            get
-            {
-                return MonthsOfYear[aMonth].ToString();
-            }
-            set
-            {
-                AMonth = MonthsOfYear[value];
-            }
-        }
+        public string ADay { get; set; }
+        public string AMonth { get; set; }
+
         public string AYear { get; set; }
         // Селектор выбора группы
         public string SGroup { get; set; }
@@ -103,17 +85,56 @@ namespace WebAddressbookTests
             }
         }
 
-        public ContactForm() {}
-
-        public ContactForm(string text) {}
-
-        public string CleanUp(string phoneOrMail)
+        public string FullBirthdayDate
         {
-            if (phoneOrMail == null || phoneOrMail == "")
+            get
+            {
+                if (fullBirthdayDate != null)
+                {
+                    return fullBirthdayDate;
+                }
+                else
+                {
+                    return CleanUp(BDay) + ". " + CleanUp(BMonth) + " " + CleanUp(BYear);
+                }
+            }
+            set
+            {
+                fullBirthdayDate = value;
+            }
+        }
+
+        public string FullAnniversaryDate
+        {
+            get
+            {
+                if (fullAnniversaryDate != null)
+                {
+                    return fullAnniversaryDate;
+                }
+                else
+                {
+                    return CleanUp(ADay) + ". " + CleanUp(AMonth) + " " + CleanUp(AYear);
+                }
+            }
+            set
+            {
+                fullAnniversaryDate = value;
+            }
+        }
+
+        public ContactForm() { }
+
+        public ContactForm(string text) { }
+
+        public string CleanUp(string phoneOrMailorDate)
+        {
+            if (phoneOrMailorDate == null || phoneOrMailorDate == "")
             {
                 return "";
             }
-            return phoneOrMail.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return phoneOrMailorDate.Replace(" ", "").Replace("-", "").Replace("(", "")
+                .Replace(")", "").Replace(".", "");
         }
 
 
@@ -127,7 +148,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return FirstName == other.FirstName && LastName == other.LastName;            
+            return FirstName == other.FirstName && LastName == other.LastName;
         }
 
         public override int GetHashCode()
@@ -147,7 +168,7 @@ namespace WebAddressbookTests
                 return 1;
             }
             var res = FirstName.CompareTo(other.FirstName);
-            
+
             if (res == 0)
             {
                 return LastName.CompareTo(other.LastName);
@@ -155,21 +176,110 @@ namespace WebAddressbookTests
             return res;
         }
 
-        public static Dictionary<string, int> MonthsOfYear = new Dictionary<string, int>()
+        /// <summary>
+        /// Возвращает строку из формы
+        /// </summary>
+        /// <param name="convertToString"></param>
+        /// <returns></returns>
+        public static string GetStringFromForm(ContactForm convertToString)
         {
-            { "-", 0 },
-            { "January", 1 },
-            { "February", 2 },
-            { "March", 3 },
-            { "April", 4 },
-            { "May", 5 },
-            { "June", 6 },
-            { "July", 7 },
-            { "August", 8 },
-            { "September", 9 },
-            { "October", 10 },
-            { "November", 11 },
-            { "December", 12 }
-        };
+            string allDetails =
+                convertToString.FirstName + " " + convertToString.MiddleName + " " + convertToString.LastName + Environment.NewLine +
+                convertToString.NickName + Environment.NewLine +
+                convertToString.Title + Environment.NewLine +
+                convertToString.Company + Environment.NewLine +
+                convertToString.Address + Environment.NewLine +
+                Environment.NewLine +
+                "H: " + convertToString.THome + Environment.NewLine +
+                "M: " + convertToString.TMobile + Environment.NewLine +
+                "W: " + convertToString.TWork + Environment.NewLine +
+                "F: " + convertToString.TFax + Environment.NewLine +
+                Environment.NewLine +
+                convertToString.Email + Environment.NewLine +
+                convertToString.Email2 + Environment.NewLine +
+                convertToString.Email3 + Environment.NewLine +
+                "Homepage:" + Environment.NewLine + convertToString.Homepage + Environment.NewLine +
+                Environment.NewLine +
+                "Birthday " + convertToString.FullBirthdayDate + " " + "(" + GetAge(convertToString.BYear) + ")" + Environment.NewLine +
+                "Anniversary " + convertToString.FullAnniversaryDate + " " + "(" + GetAge(convertToString.AYear) + ")" + Environment.NewLine +
+                Environment.NewLine +
+                convertToString.SAddress + Environment.NewLine +
+                Environment.NewLine +
+                "P: " + convertToString.SHome + Environment.NewLine +
+                Environment.NewLine +
+                convertToString.SNotes + Environment.NewLine +
+                Environment.NewLine +
+                Environment.NewLine +
+                convertToString.SGroup;
+
+            return allDetails;
+        }
+        /// <summary>
+        /// Возвращает возраст контакта с учётом месяца и дня
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static string GetAge(string count)
+        {
+            ContactForm contact = new ContactForm();
+            var now = DateTime.Today;
+            bool valuesOfContact = int.TryParse(count, out int result);
+
+            if (valuesOfContact)
+            {
+                int calculateYearOfBirth = now.Year - result - 2
+                    + (now.Month >= MonthToInt(contact.BMonth) && now.Day >= DayToInt(contact.BDay) ? 1 : 0);
+                string resultOfCalculate = Convert.ToString(calculateYearOfBirth);
+                return resultOfCalculate;
+            }
+            return "";
+        }
+        /// <summary>
+        /// Возвращает день как число
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public static int DayToInt(string day)
+        {
+            bool dayCheck = int.TryParse(day, out int result);
+            if (dayCheck)
+            {
+                return result;
+            }
+            return 0;
+        }
+        /// <summary>
+        /// Возвращает значение месяца в цифровом формате
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static int MonthToInt(string month)
+        {
+            var collection = new Dictionary<int, string>
+            {
+                { 0, "-" },
+                { 1, "January" },
+                { 2, "February" },
+                { 3, "March" },
+                { 4, "April" },
+                { 5, "May" },
+                { 6, "June" },
+                { 7, "July" },
+                { 8, "August" },
+                { 9, "September" },
+                { 10, "October" },
+                { 11, "November" },
+                { 12, "December" },
+            };
+            foreach (var item in collection)
+            {
+                if (month == item.Value)
+                {
+                    return item.Key;
+                }
+            }
+            return 0;
+
+        }
     }
 }
