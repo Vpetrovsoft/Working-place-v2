@@ -184,36 +184,22 @@ namespace WebAddressbookTests
         public static string GetStringFromForm(ContactForm convertToString)
         {
             string allDetails =
-                convertToString.FirstName + " " + convertToString.MiddleName + " " + convertToString.LastName + Environment.NewLine +
-                convertToString.NickName + Environment.NewLine +
-                convertToString.Title + Environment.NewLine +
-                convertToString.Company + Environment.NewLine +
-                convertToString.Address + Environment.NewLine +
-                Environment.NewLine +
-                "H: " + convertToString.THome + Environment.NewLine +
-                "M: " + convertToString.TMobile + Environment.NewLine +
-                "W: " + convertToString.TWork + Environment.NewLine +
-                "F: " + convertToString.TFax + Environment.NewLine +
-                Environment.NewLine +
-                convertToString.Email + Environment.NewLine +
-                convertToString.Email2 + Environment.NewLine +
-                convertToString.Email3 + Environment.NewLine +
-                "Homepage:" + Environment.NewLine + convertToString.Homepage + Environment.NewLine +
-                Environment.NewLine +
-                "Birthday " + convertToString.FullBirthdayDate + " " + "(" + GetAge(convertToString.BYear) + ")" + Environment.NewLine +
-                "Anniversary " + convertToString.FullAnniversaryDate + " " + "(" + GetAge(convertToString.AYear) + ")" + Environment.NewLine +
-                Environment.NewLine +
-                convertToString.SAddress + Environment.NewLine +
-                Environment.NewLine +
-                "P: " + convertToString.SHome + Environment.NewLine +
-                Environment.NewLine +
-                convertToString.SNotes + Environment.NewLine +
-                Environment.NewLine +
-                Environment.NewLine +
-                convertToString.SGroup;
-
+            convertToString.FirstName + " " + convertToString.MiddleName + " " + convertToString.LastName +
+            convertToString.NickName + convertToString.Title + convertToString.Company + 
+            convertToString.Address + "H: " + convertToString.THome + "M: " + convertToString.TMobile + 
+            "W: " + convertToString.TWork + "F: " + convertToString.TFax + 
+            convertToString.Email + 
+            convertToString.Email2 + 
+            convertToString.Email3 +
+            "Homepage:" + convertToString.Homepage +
+            "Birthday " + convertToString.FullBirthdayDate + " " + "(" + GetAge(convertToString.BYear) + ")" + 
+            "Anniversary " + convertToString.FullAnniversaryDate + " " + "(" + GetAge(convertToString.AYear) + ")" +
+            convertToString.SAddress +
+            "P: " + convertToString.SHome + 
+            convertToString.SNotes + convertToString.SGroup;
             return allDetails;
         }
+
         /// <summary>
         /// Возвращает возраст контакта с учётом месяца и дня
         /// </summary>
