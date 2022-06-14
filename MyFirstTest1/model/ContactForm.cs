@@ -47,6 +47,32 @@ namespace WebAddressbookTests
         public string Id { get; set; }
 
         public string AllDetails { get; set; }
+
+        public string FullStringSecondHomePhone 
+        {
+            get 
+            {
+                if (SHome != "")
+                {
+                    return "P: " + SHome;
+                }
+                return "";
+            }
+            set { }
+        }
+
+        public string FullStringHomepage
+        {
+            get
+            {
+                if (Homepage != "")
+                {
+                    return "Homepage:" + Homepage;
+                }
+                return "";
+            }
+            set { }
+        }
         public string AllEmails
         {
             get
@@ -66,6 +92,59 @@ namespace WebAddressbookTests
                 allEmails = value;
             }
         }
+
+        public string FullStringHomePhone
+        {
+            get
+            {
+                if (THome != "")
+                {
+                    return "H: " + THome;
+                }
+                return "";
+            }
+            set { }
+        }
+
+        public string FullStringMobilePhone
+        {
+            get
+            {
+                if (TMobile != "")
+                {
+                    return "M: " + TMobile;
+                }
+                return "";
+            }
+            set { }
+        }
+
+        public string FullStringWorkPhone
+        {
+            get
+            {
+                if (TWork != "")
+                {
+                    return "W: " + TWork;
+                }
+                return "";
+            }
+            set { }
+        }
+
+        public string FullStringFax
+        {
+            get
+            {
+                if (TFax != "")
+                {
+                    return "F: " + TFax;
+                }
+                return "";
+            }
+            set { }
+        }
+
         public string AllPhones
         {
             get
@@ -89,14 +168,21 @@ namespace WebAddressbookTests
         {
             get
             {
+                bool checkYearValid = int.TryParse(BYear, out int result);
                 if (fullBirthdayDate != null)
                 {
                     return fullBirthdayDate;
                 }
-                else
+                else if (checkYearValid)
                 {
-                    return CleanUp(BDay) + ". " + CleanUp(BMonth) + " " + CleanUp(BYear);
+                    if (result > 1900 || result < 2023)
+                    {
+                        return "Birthday " + CheckDayToValid(BDay) + CheckMonthToValid(BMonth) +
+                            BYear + " " + "(" + GetAge(BDay, BMonth, BYear) + ")";
+                    }
+                    return "Birthday " + CheckDayToValid(BDay) + CheckMonthToValid(BMonth) + BYear;
                 }
+                return "Birthday " + CheckDayToValid(BDay) + CheckMonthToValid(BMonth) + BYear;
             }
             set
             {
@@ -108,14 +194,21 @@ namespace WebAddressbookTests
         {
             get
             {
+                bool checkYearValid = int.TryParse(AYear, out int result);
                 if (fullAnniversaryDate != null)
                 {
                     return fullAnniversaryDate;
                 }
-                else
+                else if (checkYearValid)
                 {
-                    return CleanUp(ADay) + ". " + CleanUp(AMonth) + " " + CleanUp(AYear);
+                    if (result > 1900 || result < 2023)
+                    {
+                        return "Anniversary " + CheckDayToValid(ADay) + CheckMonthToValid(AMonth) +
+                            AYear + " " + "(" + GetAge(ADay, AMonth, AYear) + ")";
+                    }
+                    return "Anniversary " + CheckDayToValid(ADay) + CheckMonthToValid(AMonth) + AYear;
                 }
+                return "Anniversary " + CheckDayToValid(ADay) + CheckMonthToValid(AMonth) + AYear;
             }
             set
             {
@@ -123,10 +216,61 @@ namespace WebAddressbookTests
             }
         }
 
+        public string FirstNameWithOutSpace
+        {
+            get
+            {
+                if (FirstName != "")
+                {
+                    return FirstName;
+                }
+                return "";
+            }
+            set { }
+        }
+
+        public string LastNameWithSpace 
+        {
+            get
+            {
+                if (LastName != "")
+                {
+                    if (FirstName == "" && MiddleName == "")
+                    {
+                        return LastName;
+                    }
+                    return " " + LastName;
+                }
+                return "";
+            } 
+            set { }
+        }
+        public string MiddleNameWithSpace
+        {
+            get
+            {
+                if (MiddleName != "")
+                {
+                    if (FirstName == "")
+                    {
+                        return MiddleName;
+                    }
+                    return " " + MiddleName;
+                }
+                return "";
+            }
+            set { }
+        }
+
         public ContactForm() { }
 
         public ContactForm(string text) { }
 
+        /// <summary>
+        /// Убирает лишние символы -(). и пробел
+        /// </summary>
+        /// <param name="phoneOrMailorDate"></param>
+        /// <returns></returns>
         public string CleanUp(string phoneOrMailorDate)
         {
             if (phoneOrMailorDate == null || phoneOrMailorDate == "")
@@ -137,6 +281,33 @@ namespace WebAddressbookTests
                 .Replace(")", "").Replace(".", "");
         }
 
+        /// <summary>
+        /// Проверяет проставлен ли месяц в селекторе
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public string CheckMonthToValid(string month)
+        {
+            if (month != "-")
+            {
+                return month + " ";
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Проверяет валидное ли значения дня выбрано
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public string CheckDayToValid(string day)
+        {
+            if (day != "0")
+            {
+                return day + ". ";
+            }
+            return "";
+        }
 
         public bool Equals(ContactForm other)
         {
@@ -184,37 +355,44 @@ namespace WebAddressbookTests
         public static string GetStringFromForm(ContactForm convertToString)
         {
             string allDetails =
-            convertToString.FirstName + " " + convertToString.MiddleName + " " + convertToString.LastName +
-            convertToString.NickName + convertToString.Title + convertToString.Company + 
-            convertToString.Address + "H: " + convertToString.THome + "M: " + convertToString.TMobile + 
-            "W: " + convertToString.TWork + "F: " + convertToString.TFax + 
-            convertToString.Email + 
-            convertToString.Email2 + 
-            convertToString.Email3 +
-            "Homepage:" + convertToString.Homepage +
-            "Birthday " + convertToString.FullBirthdayDate + " " + "(" + GetAge(convertToString.BYear) + ")" + 
-            "Anniversary " + convertToString.FullAnniversaryDate + " " + "(" + GetAge(convertToString.AYear) + ")" +
-            convertToString.SAddress +
-            "P: " + convertToString.SHome + 
-            convertToString.SNotes + convertToString.SGroup;
+            convertToString.FirstNameWithOutSpace + Environment.NewLine +
+            convertToString.MiddleNameWithSpace + Environment.NewLine +
+            convertToString.LastNameWithSpace + Environment.NewLine +
+            convertToString.NickName + Environment.NewLine +
+            convertToString.Title + Environment.NewLine +
+            convertToString.Company + Environment.NewLine +
+            convertToString.Address + Environment.NewLine +
+            convertToString.FullStringHomePhone + Environment.NewLine +
+            convertToString.FullStringMobilePhone + Environment.NewLine +
+            convertToString.FullStringWorkPhone + Environment.NewLine +
+            convertToString.FullStringFax + Environment.NewLine +
+            convertToString.Email + Environment.NewLine +
+            convertToString.Email2 + Environment.NewLine +
+            convertToString.Email3 + Environment.NewLine +
+            convertToString.FullStringHomepage + Environment.NewLine +
+            convertToString.FullBirthdayDate + Environment.NewLine +
+            convertToString.FullAnniversaryDate + Environment.NewLine +
+            convertToString.SAddress + Environment.NewLine +
+            convertToString.FullStringSecondHomePhone + Environment.NewLine +
+            convertToString.SNotes + Environment.NewLine +
+            convertToString.SGroup + Environment.NewLine;
             return allDetails;
         }
 
         /// <summary>
         /// Возвращает возраст контакта с учётом месяца и дня
         /// </summary>
-        /// <param name="count"></param>
+        /// <param name="day"></param>
         /// <returns></returns>
-        public static string GetAge(string count)
+        public static string GetAge(string day, string month, string year)
         {
-            ContactForm contact = new ContactForm();
             var now = DateTime.Today;
-            bool valuesOfContact = int.TryParse(count, out int result);
+            bool valuesOfContact = int.TryParse(year, out int result);
 
             if (valuesOfContact)
             {
-                int calculateYearOfBirth = now.Year - result - 2
-                    + (now.Month >= MonthToInt(contact.BMonth) && now.Day >= DayToInt(contact.BDay) ? 1 : 0);
+                int calculateYearOfBirth = now.Year - result - 1
+                    + (now.Month >= MonthToInt(month) && now.Day >= DayToInt(day) ? 1 : 0);
                 string resultOfCalculate = Convert.ToString(calculateYearOfBirth);
                 return resultOfCalculate;
             }
@@ -228,14 +406,14 @@ namespace WebAddressbookTests
         public static int DayToInt(string day)
         {
             bool dayCheck = int.TryParse(day, out int result);
-            if (dayCheck)
+            if (dayCheck && result < 31)
             {
                 return result;
             }
             return 0;
         }
         /// <summary>
-        /// Возвращает значение месяца в цифровом формате
+        /// Возвращает значение месяца в цифровом формате. Только для калькулятора.
         /// </summary>
         /// <param name="month"></param>
         /// <returns></returns>

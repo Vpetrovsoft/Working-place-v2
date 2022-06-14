@@ -17,23 +17,6 @@ namespace WebAddressbookTests
 
         private List<ContactForm> contactCache = null;
 
-
-        //public string GetAgeOnlyYear(string count)
-        //{
-        //    var now = DateTime.Today;
-        //    bool contactDate = int.TryParse(count, out int result);
-        //    if (contactDate)
-        //    {
-        //        int anniversaryDayOfYear = now.Year - result;
-        //        string resultOfCalculated = Convert.ToString(anniversaryDayOfYear);
-        //        return resultOfCalculated;
-        //    }
-        //    return "";
-        //}
-
-
-
-
         /// <summary>
         /// Возвращает информацию с главной страницы
         /// </summary>
