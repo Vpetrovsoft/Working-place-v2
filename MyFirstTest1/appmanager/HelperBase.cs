@@ -44,5 +44,14 @@ namespace WebAddressbookTests
                 return false;
             }
         }
+
+        public static string IsStringAvailable(string text, string prefix)
+        {
+            if (text != "")
+            {
+                return prefix + text;
+            }
+            return "";
+        }
     }
 }

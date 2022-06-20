@@ -17,6 +17,7 @@ namespace WebAddressbookTests
         public string Title { get; set; }
         public string Company { get; set; }
         public string Address { get; set; }
+
         public string THome { get; set; }
         public string TMobile { get; set; }
         public string TWork { get; set; }
@@ -48,31 +49,6 @@ namespace WebAddressbookTests
 
         public string AllDetails { get; set; }
 
-        public string FullStringSecondHomePhone 
-        {
-            get 
-            {
-                if (SHome != "")
-                {
-                    return "P: " + SHome;
-                }
-                return "";
-            }
-            set { }
-        }
-
-        public string FullStringHomepage
-        {
-            get
-            {
-                if (Homepage != "")
-                {
-                    return "Homepage:" + Homepage;
-                }
-                return "";
-            }
-            set { }
-        }
         public string AllEmails
         {
             get
@@ -91,58 +67,6 @@ namespace WebAddressbookTests
             {
                 allEmails = value;
             }
-        }
-
-        public string FullStringHomePhone
-        {
-            get
-            {
-                if (THome != "")
-                {
-                    return "H: " + THome;
-                }
-                return "";
-            }
-            set { }
-        }
-
-        public string FullStringMobilePhone
-        {
-            get
-            {
-                if (TMobile != "")
-                {
-                    return "M: " + TMobile;
-                }
-                return "";
-            }
-            set { }
-        }
-
-        public string FullStringWorkPhone
-        {
-            get
-            {
-                if (TWork != "")
-                {
-                    return "W: " + TWork;
-                }
-                return "";
-            }
-            set { }
-        }
-
-        public string FullStringFax
-        {
-            get
-            {
-                if (TFax != "")
-                {
-                    return "F: " + TFax;
-                }
-                return "";
-            }
-            set { }
         }
 
         public string AllPhones
@@ -175,7 +99,7 @@ namespace WebAddressbookTests
                 }
                 else if (checkYearValid)
                 {
-                    if (result > 1900 || result < 2023)
+                    if (result >= 1900 || result <= 2200)
                     {
                         return "Birthday " + CheckDayToValid(BDay) + CheckMonthToValid(BMonth) +
                             BYear + " " + "(" + GetAge(BDay, BMonth, BYear) + ")";
@@ -201,7 +125,7 @@ namespace WebAddressbookTests
                 }
                 else if (checkYearValid)
                 {
-                    if (result > 1900 || result < 2023)
+                    if (result >= 1900 || result <= 2200)
                     {
                         return "Anniversary " + CheckDayToValid(ADay) + CheckMonthToValid(AMonth) +
                             AYear + " " + "(" + GetAge(ADay, AMonth, AYear) + ")";
@@ -214,52 +138,6 @@ namespace WebAddressbookTests
             {
                 fullAnniversaryDate = value;
             }
-        }
-
-        public string FirstNameWithOutSpace
-        {
-            get
-            {
-                if (FirstName != "")
-                {
-                    return FirstName;
-                }
-                return "";
-            }
-            set { }
-        }
-
-        public string LastNameWithSpace 
-        {
-            get
-            {
-                if (LastName != "")
-                {
-                    if (FirstName == "" && MiddleName == "")
-                    {
-                        return LastName;
-                    }
-                    return " " + LastName;
-                }
-                return "";
-            } 
-            set { }
-        }
-        public string MiddleNameWithSpace
-        {
-            get
-            {
-                if (MiddleName != "")
-                {
-                    if (FirstName == "")
-                    {
-                        return MiddleName;
-                    }
-                    return " " + MiddleName;
-                }
-                return "";
-            }
-            set { }
         }
 
         public ContactForm() { }
@@ -355,28 +233,65 @@ namespace WebAddressbookTests
         public static string GetStringFromForm(ContactForm convertToString)
         {
             string allDetails =
-            convertToString.FirstNameWithOutSpace + Environment.NewLine +
-            convertToString.MiddleNameWithSpace + Environment.NewLine +
-            convertToString.LastNameWithSpace + Environment.NewLine +
+            FirstNameCheck(convertToString.FirstName) + Environment.NewLine +
+            MiddleNameCheck(convertToString.MiddleName, convertToString.FirstName) + Environment.NewLine +
+            LastNameCheck(convertToString.LastName, convertToString.FirstName, convertToString.MiddleName) + Environment.NewLine +
             convertToString.NickName + Environment.NewLine +
             convertToString.Title + Environment.NewLine +
             convertToString.Company + Environment.NewLine +
             convertToString.Address + Environment.NewLine +
-            convertToString.FullStringHomePhone + Environment.NewLine +
-            convertToString.FullStringMobilePhone + Environment.NewLine +
-            convertToString.FullStringWorkPhone + Environment.NewLine +
-            convertToString.FullStringFax + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.THome, "H: ") + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.TMobile, "M: ") + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.TWork, "W: ") + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.TFax, "F: ") + Environment.NewLine +
             convertToString.Email + Environment.NewLine +
             convertToString.Email2 + Environment.NewLine +
             convertToString.Email3 + Environment.NewLine +
-            convertToString.FullStringHomepage + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.Homepage, "Homepage: ") + Environment.NewLine +
             convertToString.FullBirthdayDate + Environment.NewLine +
             convertToString.FullAnniversaryDate + Environment.NewLine +
             convertToString.SAddress + Environment.NewLine +
-            convertToString.FullStringSecondHomePhone + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.SHome, "P: ") + Environment.NewLine +
             convertToString.SNotes + Environment.NewLine +
             convertToString.SGroup + Environment.NewLine;
             return allDetails;
+        }
+
+        public static string LastNameCheck(string lastName, string firstName, string middleName)
+        {
+                      
+            if (lastName != "")
+            {
+                if (firstName == "" && middleName == "")
+                {
+                    return lastName;
+                }
+                return " " + lastName;
+            }
+            return "";
+        }
+    
+
+        private static string MiddleNameCheck(string middleName, string firstName)
+        {
+            if (middleName != "")
+            {
+                if (firstName == "")
+                {
+                    return middleName;
+                }
+                return " " + middleName;
+            }
+            return "";
+        }
+
+        private static string FirstNameCheck(string firstName)
+        {
+            if (firstName != "")
+            {
+                return firstName;
+            }
+            return "";
         }
 
         /// <summary>
@@ -443,7 +358,10 @@ namespace WebAddressbookTests
                 }
             }
             return 0;
-
+        }
+        public static string RemoveSpacesAndEnters(string fromDetails)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(fromDetails, @"\s+", " ");
         }
     }
 }
