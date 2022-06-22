@@ -45,6 +45,12 @@ namespace WebAddressbookTests
             }
         }
 
+        /// <summary>
+        /// Проверяет наличие текста в поле
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
         public static string IsStringAvailable(string text, string prefix)
         {
             if (text != "")
@@ -52,6 +58,16 @@ namespace WebAddressbookTests
                 return prefix + text;
             }
             return "";
+        }
+
+        /// <summary>
+        /// Убирает лишние дублированные пробелы
+        /// </summary>
+        /// <param name="fromDetails"></param>
+        /// <returns></returns>
+        public static string RemoveSpacesAndEnters(string fromDetails)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(fromDetails, @"\s+", " ");
         }
     }
 }

@@ -13,9 +13,9 @@ namespace WebAddressbookTests
             ContactForm fromForm = appManager.Contacts.GetContactInformationFromEditForm(0);
             string fromDetails = appManager.Contacts.GetContactInformationFromDetails(0);
 
-            var fromformToString = ContactForm.RemoveSpacesAndEnters(ContactForm.GetStringFromForm(fromForm));
+            var fromformToString = (HelperBase.RemoveSpacesAndEnters(ContactForm.GetStringFromForm(fromForm))).Trim();
 
-            var fromDetailsToValid = ContactForm.RemoveSpacesAndEnters(fromDetails);
+            var fromDetailsToValid = (HelperBase.RemoveSpacesAndEnters(fromDetails)).Trim();
 
             Assert.AreEqual(fromDetailsToValid, fromformToString);
             appManager.Auth.Logout();

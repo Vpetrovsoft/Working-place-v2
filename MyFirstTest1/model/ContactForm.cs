@@ -233,9 +233,9 @@ namespace WebAddressbookTests
         public static string GetStringFromForm(ContactForm convertToString)
         {
             string allDetails =
-            FirstNameCheck(convertToString.FirstName) + Environment.NewLine +
-            MiddleNameCheck(convertToString.MiddleName, convertToString.FirstName) + Environment.NewLine +
-            LastNameCheck(convertToString.LastName, convertToString.FirstName, convertToString.MiddleName) + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.FirstName, " ") + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.MiddleName, " ") + Environment.NewLine +
+            HelperBase.IsStringAvailable(convertToString.LastName, " ") + Environment.NewLine +
             convertToString.NickName + Environment.NewLine +
             convertToString.Title + Environment.NewLine +
             convertToString.Company + Environment.NewLine +
@@ -257,42 +257,6 @@ namespace WebAddressbookTests
             return allDetails;
         }
 
-        public static string LastNameCheck(string lastName, string firstName, string middleName)
-        {
-                      
-            if (lastName != "")
-            {
-                if (firstName == "" && middleName == "")
-                {
-                    return lastName;
-                }
-                return " " + lastName;
-            }
-            return "";
-        }
-    
-
-        private static string MiddleNameCheck(string middleName, string firstName)
-        {
-            if (middleName != "")
-            {
-                if (firstName == "")
-                {
-                    return middleName;
-                }
-                return " " + middleName;
-            }
-            return "";
-        }
-
-        private static string FirstNameCheck(string firstName)
-        {
-            if (firstName != "")
-            {
-                return firstName;
-            }
-            return "";
-        }
 
         /// <summary>
         /// Возвращает возраст контакта с учётом месяца и дня
@@ -359,9 +323,6 @@ namespace WebAddressbookTests
             }
             return 0;
         }
-        public static string RemoveSpacesAndEnters(string fromDetails)
-        {
-            return System.Text.RegularExpressions.Regex.Replace(fromDetails, @"\s+", " ");
-        }
+
     }
 }
