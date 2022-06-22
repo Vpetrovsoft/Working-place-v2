@@ -207,7 +207,29 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "\n" + "firstName=" + FirstName + ", " + "\n" + "lastName=" + LastName + "\n";
+            return "\n" + "firstName=" + FirstName + ", " +
+            "\n" + "lastName=" + LastName + ", " +
+            "\n" + "nickName=" + NickName + ", " +
+            "\n" + "title=" + Title + ", " +
+            "\n" + "company=" + Company + ", " +
+            "\n" + "address=" + Address + ", " +
+            "n" + "homePhone=" + THome + ", " +
+            "\n" + "mobilePhone=" + TMobile + ", " +
+            "\n" + "workPhone=" + TWork + ", " +
+            "\n" + "fax=" + TFax + ", " +
+            "\n" + "email=" + Email + ", " +
+            "\n" + "email2=" + Email2 + ", " +
+            "\n" + "email3=" + Email3 + ", " +
+            "\n" + "homepgae=" + Homepage + ", " +
+            "\n" + "birthDay=" + BDay + ", " +
+            "\n" + "birthMonth=" + BMonth + ", " +
+            "\n" + "birthYear=" + BYear + ", " +
+            "\n" + "anniversaryDay=" + ADay + ", " +
+            "\n" + "anniversaryMonth=" + AMonth + ", " +
+            "\n" + "anniversaryYear=" + AYear + ", " +
+            "\n" + "secondAddress=" + SAddress + ", " +
+            "\n" + "secondHomePhone=" + SHome + ", " +
+            "\n" + "secondNotes=" + SNotes + ", ";
         }
 
         public int CompareTo(ContactForm other)

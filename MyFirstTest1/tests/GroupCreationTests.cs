@@ -6,18 +6,25 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-
-        [Test]
-
-	    public void GroupCreationTest()
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
-
-            GroupData group = new GroupData()
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
             {
-                Name = "Lol",
-                Header = "Kek",
-                Footer = "Cheburek"
-            };
+                groups.Add(new GroupData()
+                {
+                    Name = GenerateRandomString(30),
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
+
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+
+	    public void GroupCreationTest(GroupData group)
+        {
             List<GroupData> oldGroups = appManager.Groups.GetGroupList();       
             appManager.Groups.Create(group);            
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
@@ -26,28 +33,6 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();            
             Assert.AreEqual(oldGroups, newGroups);
-            appManager.Auth.Logout();
-        }
-
-        [Test]
-
-        public void EmtyGroupCreationTest()
-        {
-            GroupData group = new GroupData()
-            {
-                Name = "Loly",
-                Header = "change1",
-                Footer = "change2",
-            };
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
-            appManager.Groups.Create(group);
-            Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            oldGroups.Add(group);
-            oldGroups.Sort();
-            newGroups.Sort();
-            Assert.AreEqual(oldGroups, newGroups);
-            
             appManager.Auth.Logout();
         }
 

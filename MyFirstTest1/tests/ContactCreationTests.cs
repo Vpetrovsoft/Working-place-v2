@@ -6,39 +6,47 @@ namespace WebAddressbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-        
-        [Test]
-        
-        public void ContactCreationTest()
+        public static IEnumerable<ContactForm> RandomContactDataProvider()
         {
-            ContactForm contact = new ContactForm()
+            List<ContactForm> contacts = new List<ContactForm>();
+            for (int i = 0; i < 3; i++)
             {
-                LastName = "Bumagad",
-                FirstName = "Bitya",
-                MiddleName = "Petrovich",
-                NickName ="Greshnik215",
-                Title = "",
-                Company = "",
-                Address = "Мозжевеловый переулок",
-                THome = "2",
-                TMobile = "8-958-652-88-77",
-                TWork = "01-01-00",
-                TFax = "01-01-00",
-                Email = "Uragantest666+1@gmail.com",
-                Email2 = "Uragantest666+2@gmail.com",
-                Email3 = "Uragantest666+3@gmail.com",
-                Homepage = "www.leningrad.ru",
-                BDay = "10",
-                BMonth = "5",
-                BYear = "1993",
-                ADay = "12",
-                AMonth = "4",
-                AYear = "2021",
-                SGroup = "Lol",
-                SAddress = "Lenina",
-                SHome = "1",
-                SNotes = "Примечание"
-            };
+                contacts.Add(new ContactForm()
+                {
+                    LastName = GenerateRandomString(10),
+                    FirstName = GenerateRandomString(10),
+                    MiddleName = GenerateRandomString(10),
+                    NickName = GenerateRandomString(10),
+                    Title = GenerateRandomString(10),
+                    Company = GenerateRandomString(10),
+                    Address = GenerateRandomString(10),
+                    THome = GenerateRandomPhoneNumber(),
+                    TMobile = GenerateRandomPhoneNumber(),
+                    TWork = GenerateRandomPhoneNumber(),
+                    TFax = GenerateRandomPhoneNumber(),
+                    Email = GenerateRandomString(10),
+                    Email2 = GenerateRandomString(10),
+                    Email3 = GenerateRandomString(10),
+                    Homepage = GenerateRandomString(10),
+                    BDay = GenerateRandomDayToValid(),
+                    BMonth = GenerateRandomMonth(),
+                    BYear = GenerateRandomYear(),
+                    ADay = GenerateRandomDayToValid(),
+                    AMonth = GenerateRandomMonth(),
+                    AYear = GenerateRandomYear(),
+                    SGroup = GenerateRandomString(10),
+                    SAddress = GenerateRandomString(10),
+                    SHome = GenerateRandomPhoneNumber(),
+                    SNotes = GenerateRandomString(10)
+                });
+            }
+            return contacts;
+        }
+
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        
+        public void ContactCreationTest(ContactForm contact)
+        {
             List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
 
             appManager.Contacts.Creation(contact);
