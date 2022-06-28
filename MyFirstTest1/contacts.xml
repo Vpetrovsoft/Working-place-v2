@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactForm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactForm>
+    <FirstName>RTl°Ñ</FirstName>
+    <LastName>¹öu</LastName>
+    <MiddleName>íÎF</MiddleName>
+    <NickName>Ø¾</NickName>
+    <Title>04Ë×¢³</Title>
+    <Company>X</Company>
+    <Address>þî</Address>
+    <THome>0-123-408-72-45</THome>
+    <TMobile>5-914-239-65-64</TMobile>
+    <TWork>2-559-525-76-12</TWork>
+    <TFax>5-778-283-62-37</TFax>
+    <Email>oG¤L®@mail.ru</Email>
+    <Email2>e.NçmÁ@mail.ru</Email2>
+    <Email3> 2ËÎ±@mail.ru</Email3>
+    <Homepage>2kÆ¢a.com</Homepage>
+    <BDay>2</BDay>
+    <BMonth>June</BMonth>
+    <BYear>+É</BYear>
+    <ADay>21</ADay>
+    <AMonth>February</AMonth>
+    <AYear>8374</AYear>
+    <SGroup>8N&amp;8Ü</SGroup>
+    <SAddress>EÈ</SAddress>
+    <SHome>0-566-998-70-48</SHome>
+    <SNotes>²-]ÛÒ#</SNotes>
+    <AllEmails>oG¤L®@mailrueNçmÁ@mailru 2ËÎ±@mailru</AllEmails>
+    <AllPhones>01234087245591423965642559525761205669987048</AllPhones>
+    <FullBirthdayDate>Birthday 2. June +É</FullBirthdayDate>
+    <FullAnniversaryDate>Anniversary 21. February 8374 (-6352)</FullAnniversaryDate>
+  </ContactForm>
+  <ContactForm>
+    <FirstName>²</FirstName>
+    <LastName>VS³D</LastName>
+    <MiddleName>,²Í</MiddleName>
+    <NickName>ÈØð</NickName>
+    <Title>}</Title>
+    <Company />
+    <Address />
+    <THome>0-755-649-94-12</THome>
+    <TMobile>1-476-112-10-18</TMobile>
+    <TWork>2-516-877-64-90</TWork>
+    <TFax>2-370-556-29-94</TFax>
+    <Email>R¼ã+9TÇ@mail.ru</Email>
+    <Email2>¥qN@ï@mail.ru</Email2>
+    <Email3>H«w­@mail.ru</Email3>
+    <Homepage>ÌäZa·.com</Homepage>
+    <BDay>6</BDay>
+    <BMonth>July</BMonth>
+    <BYear>-920</BYear>
+    <ADay>28</ADay>
+    <AMonth>March</AMonth>
+    <AYear>ß</AYear>
+    <SGroup />
+    <SAddress>êíéµ8</SAddress>
+    <SHome>4-943-966-68-51</SHome>
+    <SNotes>»;åÚgQ×</SNotes>
+    <AllEmails>R¼ã+9TÇ@mailru¥qN@ï@mailruH«w­@mailru</AllEmails>
+    <AllPhones>07556499412147611210182516877649049439666851</AllPhones>
+    <FullBirthdayDate>Birthday 6. July -920 (2941)</FullBirthdayDate>
+    <FullAnniversaryDate>Anniversary 28. March ß</FullAnniversaryDate>
+  </ContactForm>
+</ArrayOfContactForm>
