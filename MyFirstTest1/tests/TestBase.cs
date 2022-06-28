@@ -29,7 +29,7 @@ namespace WebAddressbookTests
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < l; i++)
             {
-                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 65)));
+                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
             }
             return builder.ToString();
         }
@@ -49,9 +49,13 @@ namespace WebAddressbookTests
         /// Генератор дня
         /// </summary>
         /// <returns></returns>
-        public static string GenerateRandomDayToValid()
+        public static string GenerateRandomDay()
         {
-            string l = Convert.ToString(rnd.Next(1, 30));
+            string l = Convert.ToString(rnd.Next(0, 31));
+            if (l == "0")
+            {
+                return "-";
+            }
             return l;
         }
 
@@ -84,13 +88,26 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
-        /// Генератор года
+        /// Генератор года невалидного/цифры за диапозоном/валидные значения
         /// </summary>
         /// <returns></returns>
-        public static string GenerateRandomYear()
+        public static string GenerateRandomYear(int max)
         {
-            int l = rnd.Next(1900, 2200);
-            return l.ToString();
+            int chooseMeaning = rnd.Next(1, 4);
+            if (chooseMeaning == 1)
+            {
+                return GenerateRandomString(max);
+            }
+            else if (chooseMeaning == 2)
+            {
+                int l = rnd.Next(1900, 2200);
+                return l.ToString();
+            }
+            else
+            {
+                int l = rnd.Next(-999, 9999);
+                return l.ToString();
+            }
         }
 
         /// <summary>
