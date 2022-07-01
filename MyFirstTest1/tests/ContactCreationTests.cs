@@ -7,12 +7,12 @@ using System.Xml.Serialization;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         public static IEnumerable<ContactForm> RandomContactDataProvider()
         {
             List<ContactForm> contacts = new List<ContactForm>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 contacts.Add(new ContactForm()
                 {
@@ -58,22 +58,20 @@ namespace WebAddressbookTests
                 .Deserialize(new StreamReader("contacts.xml"));
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
         
         public void ContactCreationTest(ContactForm contact)
         {
-            List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
+            List<ContactForm> oldContacts = ContactForm.GetAll();
 
             appManager.Contacts.Creation(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, appManager.Contacts.GetContactCount());
-            List<ContactForm> newContacts = appManager.Contacts.GetContactList();
+            List<ContactForm> newContacts = ContactForm.GetAll();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
-
-            appManager.Auth.Logout();
         }
     }
 }

@@ -1,16 +1,24 @@
 ﻿using System;
 using OpenQA.Selenium;
+using System.Linq;
+using LinqToDB.Mapping;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        [Column(Name = "group_name")]
         public string Name { get; set; }
 
+        [Column(Name = "group_header")]
         public string Header { get; set; }
 
+        [Column(Name = "group_footer")]
         public string Footer { get; set; }
 
+        [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
        
         public GroupData() {}
@@ -67,6 +75,18 @@ namespace WebAddressbookTests
                 return 1;
             }
             return Name.CompareTo(other.Name);
+        }
+
+        /// <summary>
+        /// Возвращает все данные о группах и БД
+        /// </summary>
+        /// <returns></returns>
+        public static List<GroupData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups select g).ToList();
+            }
         }
     }
 }

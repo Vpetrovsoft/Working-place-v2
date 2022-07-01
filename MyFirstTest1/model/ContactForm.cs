@@ -1,8 +1,11 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
     {
         private string allEmails;
@@ -10,41 +13,83 @@ namespace WebAddressbookTests
         private string fullBirthdayDate;
         private string fullAnniversaryDate;
 
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
+
+        [Column(Name = "middlename")]
         public string MiddleName { get; set; }
+
+        [Column(Name = "nickname")]
         public string NickName { get; set; }
+
+        [Column(Name = "title")]
         public string Title { get; set; }
+
+        [Column(Name = "company")]
         public string Company { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
 
+        [Column(Name = "home")]
         public string THome { get; set; }
+
+        [Column(Name = "mobile")]
         public string TMobile { get; set; }
+
+        [Column(Name = "work")]
         public string TWork { get; set; }
+
+        [Column(Name = "fax")]
         public string TFax { get; set; }
+
+        [Column(Name = "email")]
         public string Email { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+
+        [Column(Name = "homepage")]
         public string Homepage { get; set; }
 
         // Селекторы дня рождения
+        [Column(Name = "bday")]
         public string BDay { get; set; }
+
+        [Column(Name = "bmonth")]
         public string BMonth { get; set; }
 
+        [Column(Name = "byear")]
         public string BYear { get; set; }
 
         // Селекторы Anniversary
+        [Column(Name = "aday")]
         public string ADay { get; set; }
+
+        [Column(Name = "amonth")]
         public string AMonth { get; set; }
 
+        [Column(Name = "ayear")]
         public string AYear { get; set; }
         // Селектор выбора группы
         public string SGroup { get; set; }
         // Secondary
+        [Column(Name = "address2")]
         public string SAddress { get; set; }
+
+        [Column(Name = "phone2")]
         public string SHome { get; set; }
+
+        [Column(Name = "notes")]
         public string SNotes { get; set; }
 
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
         public string AllDetails { get; set; }
@@ -197,7 +242,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return FirstName == other.FirstName && LastName == other.LastName;
+            return FirstName == other.FirstName && LastName == other.LastName && Id == other.Id;
         }
 
         public override int GetHashCode()
@@ -213,7 +258,7 @@ namespace WebAddressbookTests
             "\n" + "title=" + Title + ", " +
             "\n" + "company=" + Company + ", " +
             "\n" + "address=" + Address + ", " +
-            "n" + "homePhone=" + THome + ", " +
+            "\n" + "homePhone=" + THome + ", " +
             "\n" + "mobilePhone=" + TMobile + ", " +
             "\n" + "workPhone=" + TWork + ", " +
             "\n" + "fax=" + TFax + ", " +
@@ -346,5 +391,12 @@ namespace WebAddressbookTests
             return 0;
         }
 
+        public static List<ContactForm> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts select c).ToList();
+            }
+        }
     }
 }

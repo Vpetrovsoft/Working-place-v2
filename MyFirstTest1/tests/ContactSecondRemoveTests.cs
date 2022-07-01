@@ -4,54 +4,51 @@ using System.Collections.Generic;
 namespace WebAddressbookTests 
 {
     [TestFixture]
-    public class ContactSecondRemoveTests : AuthTestBase
+    public class ContactSecondRemoveTests : ContactTestBase
     {
         [Test]
 
         public void ContactSecondRemoveTest()
         {
-            appManager.Navigator.GoToHomePage();
-            List<ContactForm> oldContacts = appManager.Contacts.GetContactList();
+            List<ContactForm> oldContacts = ContactForm.GetAll();
 
             if (oldContacts.Count == 0)
             {
                 ContactForm contact = new ContactForm()
                 {
-                    LastName = "Bumagad",
-                    FirstName = "Bitya",
-                    MiddleName = "Petrovich",
-                    NickName = "Greshnik215",
-                    Title = "",
-                    Company = "",
-                    Address = "Мозжевеловый переулок",
-                    THome = "2",
-                    TMobile = "8-958-652-88-77",
-                    TWork = "01-01-00",
-                    TFax = "01-01-00",
-                    Email = "Uragantest666+1@gmail.com",
-                    Email2 = "Uragantest666+2@gmail.com",
-                    Email3 = "Uragantest666+3@gmail.com",
-                    Homepage = "www.leningrad.ru",
-                    BDay = "10",
-                    BMonth = "may",
-                    BYear = "1993",
-                    ADay = "12",
-                    AMonth = "april",
-                    AYear = "2021",
-                    SGroup = "Lol",
-                    SAddress = "Lenina",
-                    SHome = "1",
-                    SNotes = "Примечание"
+                    LastName = GenerateRandomString(10),
+                    FirstName = GenerateRandomString(10),
+                    MiddleName = GenerateRandomString(10),
+                    NickName = GenerateRandomString(10),
+                    Title = GenerateRandomString(10),
+                    Company = GenerateRandomString(10),
+                    Address = GenerateRandomString(10),
+                    THome = GenerateRandomPhoneNumber(),
+                    TMobile = GenerateRandomPhoneNumber(),
+                    TWork = GenerateRandomPhoneNumber(),
+                    TFax = GenerateRandomPhoneNumber(),
+                    Email = $"{GenerateRandomString(10)}@gmail.com",
+                    Email2 = $"{GenerateRandomString(10)}@gmail.com",
+                    Email3 = $"{GenerateRandomString(10)}@gmail.com",
+                    Homepage = $"{GenerateRandomString(10)}.com",
+                    BDay = GenerateRandomDay(),
+                    BMonth = GenerateRandomMonth(),
+                    BYear = GenerateRandomYear(4),
+                    ADay = GenerateRandomDay(),
+                    AMonth = GenerateRandomMonth(),
+                    AYear = GenerateRandomYear(4),
+                    SGroup = GenerateRandomString(10),
+                    SAddress = GenerateRandomString(10),
+                    SHome = GenerateRandomPhoneNumber(),
+                    SNotes = GenerateRandomString(10)
                 };
                 appManager.Contacts.Creation(contact);
             }
-            appManager.Contacts.SelectContaсt(0);
-            appManager.Contacts.GoToEditContact(0);
-            appManager.Contacts.RemoveContact();
+            ContactForm toBeRemoved = oldContacts[0];
+            appManager.Contacts.SecondRemove(toBeRemoved);
 
             Assert.AreEqual(oldContacts.Count - 1, appManager.Contacts.GetContactCount());
-            List<ContactForm> newContacts = appManager.Contacts.GetContactList();
-            ContactForm toBeRemoved = oldContacts[0];
+            List<ContactForm> newContacts = ContactForm.GetAll();
             oldContacts.RemoveAt(0);
             oldContacts.Sort();
             newContacts.Sort();
@@ -61,7 +58,6 @@ namespace WebAddressbookTests
             {
                 Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
             }
-            appManager.Auth.Logout();
         }
     }
 }

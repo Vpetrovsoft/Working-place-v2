@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Globalization;
-
+using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
@@ -165,6 +165,42 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Редактирование контакта по id
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="newContact"></param>
+        /// <returns></returns>
+        public ContactHelper ModifyContact(ContactForm contact, ContactForm newContact)
+        {
+            manager.Navigator.GoToHomePage();
+            GoToEditContact(contact.Id);
+            ContactFillForm(newContact, needFillGroup: false);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(ContactForm contact)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContaсt(contact.Id);
+            RemoveContact();
+            ContactCloseAlert();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper SecondRemove(ContactForm contact)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContaсt(contact.Id);
+            GoToEditContact(0);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        /// <summary>
         /// Метод передающий количество элементов в списке
         /// </summary>
         /// <returns></returns>
@@ -186,10 +222,21 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Выбор и переход в изменение контакта по id
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ContactHelper GoToEditContact(String id)
+        {
+            driver.FindElement(By.CssSelector("table[id=maintable] td:nth-child(8) a[href$='" + id + "']")).Click();
+            return this;
+        }
+
+        /// <summary>
         /// Заполнение полей контакта
         /// </summary>
         /// <param name="contact"></param>
-        public ContactHelper ContactFillForm(ContactForm contact, bool needFillGroup = true)
+        public ContactHelper ContactFillForm(ContactForm contact, bool needFillGroup = false)
         {
             Type(By.CssSelector("input[name='firstname']"), contact.FirstName);
             Type(By.CssSelector("input[name='middlename']"), contact.MiddleName);
@@ -258,6 +305,17 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[" + (index + 1) + "]/input")).Click();
             
+            return this;
+        }
+
+        /// <summary>
+        /// Метод, который выбирает какой контакт будет удалён по идентификатору
+        /// </summary>
+        /// <returns></returns>
+        public ContactHelper SelectContaсt(String id)
+        {
+            driver.FindElement(By.XPath("//input[@id='" + id + "']")).Click();
+
             return this;
         }
 

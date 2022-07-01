@@ -7,8 +7,8 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
-
         protected ApplicationManager appManager;
+        public static bool PERFORM_LONG_UI_CHECKS = true;
 
         [SetUp]
         public void SetupApplicationManagerTest()
@@ -123,6 +123,7 @@ namespace WebAddressbookTests
                 "-" + Convert.ToInt32(rnd.Next(10, 99));
             return number;
         }
+
     }
 }
 

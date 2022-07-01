@@ -4,45 +4,42 @@ using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         [Test]
         public void GroupRemovalTest()
         {
             appManager.Navigator.GoToGroupsPage();
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             if (oldGroups.Count == 0)
             {
                 GroupData group = new GroupData()
                 {
-                    Name = "Lol",
-                    Header = "Kek",
-                    Footer = "Cheburek"
+                    Name = GenerateRandomString(30),
+                    Header = GenerateRandomString(30),
+                    Footer = GenerateRandomString(30)
                 };
-
                 //Добавить группу
                 appManager.Groups.Create(group);
                 appManager.Navigator.GoToGroupsPage();
             }
-            
-            appManager.Groups.SelectGroup(0);
-            appManager.Groups.RemoveGroup();
+            GroupData toBeRemoved = oldGroups[0];
+
+            appManager.Groups.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, appManager.Groups.GetGroupCount());
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
-            GroupData toBeRemoved = oldGroups[0];
+            List<GroupData> newGroups = GroupData.GetAll();
+            
             oldGroups.RemoveAt(0);
-            oldGroups.Sort();
-            newGroups.Sort();
+
             Assert.AreEqual(oldGroups, newGroups);
 
             foreach (GroupData group in newGroups)
             {
                 Assert.AreNotEqual(group.Id, toBeRemoved.Id);
             }
-            appManager.Auth.Logout();
         }
     }
 }
