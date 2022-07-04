@@ -275,6 +275,81 @@ namespace WebAddressbookTests
         }
 
         /// <summary>
+        /// Добавлеет контакт в группу
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <param name="group"></param>
+        public void AddContactToGroup(ContactForm contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContaсt(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommintAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            manager.Navigator.GoToHomePage();
+        }
+
+        /// <summary>
+        /// Удаляет контакт из группы
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <param name="group"></param>
+        public void RemoveContactFromGroup(ContactForm contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectGroupFilter(group);
+            SelectContaсt(contact.Id);
+            RemoveContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            manager.Navigator.GoToHomePage();
+        }
+
+        /// <summary>
+        /// Выбирает в селекторе группу по ID группы
+        /// </summary>
+        /// <param name="group"></param>
+        public void SelectGroupFilter(GroupData group)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(group.Id);
+        }
+
+        /// <summary>
+        /// Нажимает кнопку удаление контакта из группы
+        /// </summary>
+        public void RemoveContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        /// <summary>
+        /// Очищает фильтр с группами
+        /// </summary>
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        /// <summary>
+        /// Выбирает в какую группу добавить
+        /// </summary>
+        /// <param name="name"></param>
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        /// <summary>
+        /// Нажимает кнопку подтверждения добавления контакта в группу
+        /// </summary>
+        public void CommintAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        /// <summary>
         /// Подтверждение создания контакта 
         /// </summary>
         /// <returns></returns>

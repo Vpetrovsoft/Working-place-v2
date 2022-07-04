@@ -88,5 +88,20 @@ namespace WebAddressbookTests
                 return (from g in db.Groups select g).ToList();
             }
         }
+
+        /// <summary>
+        /// Возвращает список контактов, которые находятся в определённой группе
+        /// </summary>
+        /// <returns></returns>
+        public List<ContactForm> GetContacts()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.GCR.Where(p => p.GroupId == Id &&
+                        p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                        select c).Distinct().ToList();
+            }
+        }
     }
 }
