@@ -193,8 +193,7 @@ namespace WebAddressbookTests
         public ContactHelper SecondRemove(ContactForm contact)
         {
             manager.Navigator.GoToHomePage();
-            SelectContaсt(contact.Id);
-            GoToEditContact(0);
+            GoToEditContact(contact.Id);
             RemoveContact();
             manager.Navigator.GoToHomePage();
             return this;
