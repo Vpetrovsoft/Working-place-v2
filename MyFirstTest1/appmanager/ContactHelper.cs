@@ -279,12 +279,12 @@ namespace WebAddressbookTests
         /// </summary>
         /// <param name="contact"></param>
         /// <param name="group"></param>
-        public void AddContactToGroup(ContactForm contact, GroupData group)
+        public void AddContactToGroup(ContactForm contact, string groupId)
         {
             manager.Navigator.GoToHomePage();
             ClearGroupFilter();
             SelectContaсt(contact.Id);
-            SelectGroupToAdd(group.Name);
+            SelectGroupToAdd(groupId);
             CommintAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
@@ -296,10 +296,10 @@ namespace WebAddressbookTests
         /// </summary>
         /// <param name="contact"></param>
         /// <param name="group"></param>
-        public void RemoveContactFromGroup(ContactForm contact, GroupData group)
+        public void RemoveContactFromGroup(ContactForm contact, string groupId)
         {
             manager.Navigator.GoToHomePage();
-            SelectGroupFilter(group);
+            SelectGroupFilter(groupId);
             SelectContaсt(contact.Id);
             RemoveContactFromGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
@@ -311,9 +311,9 @@ namespace WebAddressbookTests
         /// Выбирает в селекторе группу по ID группы
         /// </summary>
         /// <param name="group"></param>
-        public void SelectGroupFilter(GroupData group)
+        public void SelectGroupFilter(string groupId)
         {
-            new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(group.Id);
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(groupId);
         }
 
         /// <summary>
@@ -336,9 +336,9 @@ namespace WebAddressbookTests
         /// Выбирает в какую группу добавить
         /// </summary>
         /// <param name="name"></param>
-        public void SelectGroupToAdd(string name)
+        public void SelectGroupToAdd(string id)
         {
-            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByValue(id);
         }
 
         /// <summary>

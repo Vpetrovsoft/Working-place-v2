@@ -12,7 +12,6 @@ namespace WebAddressbookTests
         [Test]
         public void RemovingContactFromGroupTest()
         {
-            // Проверяем наличие групп
             List<GroupData> groupList = GroupData.GetAll();
             if (groupList.Count == 0)
             {
@@ -25,59 +24,40 @@ namespace WebAddressbookTests
                 appManager.Groups.Create(groupCreate);
                 groupList = GroupData.GetAll();
             }
-            // В переменную group записываем группу под индексом 0
             GroupData group = groupList[0];
 
-            // Проверяем наличие контактов
-            List<ContactForm> contactList = ContactForm.GetAll();
-            if (contactList.Count == 0)
+            List<ContactForm> contactListInGroup = group.GetContacts();
+            
+            if (contactListInGroup.Count == 0)
             {
-                ContactForm newContactCreate = new ContactForm
+                List<ContactForm> contactList = ContactForm.GetAll();
+                if (contactList.Count - contactListInGroup.Count == 0)
                 {
-                    LastName = GenerateRandomString(10),
-                    FirstName = GenerateRandomString(10),
-                    MiddleName = GenerateRandomString(10),
-                    NickName = GenerateRandomString(10),
-                    Title = GenerateRandomString(10),
-                    Company = GenerateRandomString(10),
-                    Address = GenerateRandomString(10),
-                    THome = GenerateRandomPhoneNumber(),
-                    TMobile = GenerateRandomPhoneNumber(),
-                    TWork = GenerateRandomPhoneNumber(),
-                    TFax = GenerateRandomPhoneNumber(),
-                    Email = $"{GenerateRandomString(10)}@gmail.com",
-                    Email2 = $"{GenerateRandomString(10)}@gmail.com",
-                    Email3 = $"{GenerateRandomString(10)}@gmail.com",
-                    Homepage = $"{GenerateRandomString(10)}.com",
-                    BDay = GenerateRandomDay(),
-                    BMonth = GenerateRandomMonth(),
-                    BYear = GenerateRandomYear(4),
-                    ADay = GenerateRandomDay(),
-                    AMonth = GenerateRandomMonth(),
-                    AYear = GenerateRandomYear(4),
-                    SAddress = GenerateRandomString(10),
-                    SHome = GenerateRandomPhoneNumber(),
-                    SNotes = GenerateRandomString(10)
-                };
-                appManager.Contacts.Creation(newContactCreate);
-            }
-            List<ContactForm> oldListContacts = group.GetContacts();
-            // Если в группе нету контактов, то добавляем контакт в эту группу и заново получваем контакты в группе
-            if (oldListContacts.Count == 0)
-            {
-                ContactForm contactNew = ContactForm.GetAll().Except(oldListContacts).First();
-                appManager.Contacts.AddContactToGroup(contactNew, group);
-                oldListContacts = group.GetContacts();
+                    ContactForm newContactCreate = new ContactForm
+                    {
+                        LastName = "Osetr",
+                        FirstName = "Maxim",
+                        BDay = "4",
+                        BMonth = "April",
+                        ADay = "12",
+                        AMonth = "May"
+                    };
+                    appManager.Contacts.Creation(newContactCreate);
+                    contactList = ContactForm.GetAll();
+                }
+                ContactForm contactNew = contactList.Except(contactListInGroup).First();
+                appManager.Contacts.AddContactToGroup(contactNew, group.Id);
+                contactListInGroup = group.GetContacts();
             }
             ContactForm contact = ContactForm.GetAll().First();
 
-            appManager.Contacts.RemoveContactFromGroup(contact, group);
+            appManager.Contacts.RemoveContactFromGroup(contact, group.Id);
 
             List<ContactForm> newListContacts = group.GetContacts();
-            oldListContacts.RemoveAt(0);
-            oldListContacts.Sort();
+            contactListInGroup.RemoveAt(0);
+            contactListInGroup.Sort();
             newListContacts.Sort();
-            Assert.AreEqual(oldListContacts, newListContacts);
+            Assert.AreEqual(contactListInGroup, newListContacts);
             appManager.Auth.Logout();
         }
     }
