@@ -279,12 +279,12 @@ namespace WebAddressbookTests
         /// </summary>
         /// <param name="contact"></param>
         /// <param name="group"></param>
-        public void AddContactToGroup(ContactForm contact, string groupId)
+        public void AddContactToGroup(ContactForm contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
             ClearGroupFilter();
             SelectContaсt(contact.Id);
-            SelectGroupToAdd(groupId);
+            SelectGroupToAdd(group.Id);
             CommintAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
@@ -296,10 +296,10 @@ namespace WebAddressbookTests
         /// </summary>
         /// <param name="contact"></param>
         /// <param name="group"></param>
-        public void RemoveContactFromGroup(ContactForm contact, string groupId)
+        public void RemoveContactFromGroup(ContactForm contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
-            SelectGroupFilter(groupId);
+            SelectGroupFilter(group.Id);
             SelectContaсt(contact.Id);
             RemoveContactFromGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))

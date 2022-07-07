@@ -401,5 +401,23 @@ namespace WebAddressbookTests
                 return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
+
+        /// <summary>
+        /// Возвращает валидный контакт
+        /// </summary>
+        /// <returns></returns>
+        public static ContactForm GetTestContact()
+        {
+            ContactForm newContactCreate = new ContactForm
+            {
+                LastName = "Vitya",
+                FirstName = "Bumaga",
+                BDay = "4",
+                BMonth = "April",
+                ADay = "12",
+                AMonth = "May"
+            };
+            return newContactCreate;
+        }
     }
 }

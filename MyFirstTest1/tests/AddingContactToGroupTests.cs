@@ -27,41 +27,16 @@ namespace WebAddressbookTests
             GroupData group = groupList[0];
 
             List<ContactForm> contactListInGroup = group.GetContacts();
- 
-            List<ContactForm> contactList = ContactForm.GetAll();
-            if (contactList.Count == 0)
+            var contactsNotThisGroup = ContactForm.GetAll().Except(contactListInGroup);
+            if (contactsNotThisGroup.Count() == 0)
             {
-                ContactForm newContactCreate = new ContactForm
-                {
-                    LastName = "Vitya",
-                    FirstName = "Bumaga",
-                    BDay = "4",
-                    BMonth = "April",
-                    ADay = "12",
-                    AMonth = "May"
-                };
+                var newContactCreate = ContactForm.GetTestContact();
                 appManager.Contacts.Creation(newContactCreate);
-                contactList = ContactForm.GetAll();
-            }            
-            // Если разница всех контактов и контактов в группе равна 0
-            if (contactList.Count - contactListInGroup.Count == 0)
-            {
-                ContactForm newContactCreate = new ContactForm
-                {
-                    LastName = "Osetr",
-                    FirstName = "Maxim",
-                    BDay = "4",
-                    BMonth = "April",
-                    ADay = "12",
-                    AMonth = "May"
-                };
-                appManager.Contacts.Creation(newContactCreate);
-                contactList = ContactForm.GetAll();
+                contactsNotThisGroup = ContactForm.GetAll().Except(contactListInGroup);
             }
+            ContactForm contact = contactsNotThisGroup.First();
 
-            ContactForm contact = contactList.Except(contactListInGroup).First();
-
-            appManager.Contacts.AddContactToGroup(contact, group.Id);
+            appManager.Contacts.AddContactToGroup(contact, group);
 
             List<ContactForm> newListContacts = group.GetContacts();
             contactListInGroup.Add(contact);

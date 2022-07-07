@@ -26,32 +26,25 @@ namespace WebAddressbookTests
             }
             GroupData group = groupList[0];
 
-            List<ContactForm> contactListInGroup = group.GetContacts();
-            
+            List<ContactForm> contactListInGroup = group.GetContacts();   
+
             if (contactListInGroup.Count == 0)
             {
-                List<ContactForm> contactList = ContactForm.GetAll();
-                if (contactList.Count - contactListInGroup.Count == 0)
+                var contactsInThisGroup = ContactForm.GetAll().Except(contactListInGroup);
+
+                if (contactsInThisGroup.Count() == 0)
                 {
-                    ContactForm newContactCreate = new ContactForm
-                    {
-                        LastName = "Osetr",
-                        FirstName = "Maxim",
-                        BDay = "4",
-                        BMonth = "April",
-                        ADay = "12",
-                        AMonth = "May"
-                    };
+                    ContactForm newContactCreate = ContactForm.GetTestContact();
                     appManager.Contacts.Creation(newContactCreate);
-                    contactList = ContactForm.GetAll();
+                    contactsInThisGroup = ContactForm.GetAll().Except(contactListInGroup);
                 }
-                ContactForm contactNew = contactList.Except(contactListInGroup).First();
-                appManager.Contacts.AddContactToGroup(contactNew, group.Id);
+                ContactForm contactNew = contactsInThisGroup.First();
+                appManager.Contacts.AddContactToGroup(contactNew, group);
                 contactListInGroup = group.GetContacts();
             }
             ContactForm contact = ContactForm.GetAll().First();
 
-            appManager.Contacts.RemoveContactFromGroup(contact, group.Id);
+            appManager.Contacts.RemoveContactFromGroup(contact, group);
 
             List<ContactForm> newListContacts = group.GetContacts();
             contactListInGroup.RemoveAt(0);
