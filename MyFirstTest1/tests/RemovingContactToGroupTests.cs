@@ -42,7 +42,7 @@ namespace WebAddressbookTests
                 appManager.Contacts.AddContactToGroup(contactNew, group);
                 contactListInGroup = group.GetContacts();
             }
-            ContactForm contact = ContactForm.GetAll().First();
+            ContactForm contact = contactListInGroup.First();
 
             appManager.Contacts.RemoveContactFromGroup(contact, group);
 
